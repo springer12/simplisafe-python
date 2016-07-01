@@ -6,5 +6,5 @@ setup(name='simplisafe-python',
       url='https://github.com/w1ll1am23/simplisafe-python',
       author='William Scanlon',
       license='MIT',
-      packages=['simplisafe'],
+      py_modules=['simplisafe'],
       zip_safe=True)
