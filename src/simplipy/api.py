@@ -131,9 +131,9 @@ def get_systems(api_interface):
     locations = []
 
     json_locations = api_interface.get_locations()
-    num_locations = json_locations.get('num_locations')
-    if num_locations == 1:
-        location = list(json_locations.get('locations'))[0]
+    location_list = list(json_locations.get('locations'))
+    for location in location_list:
+        print(location)
         state = json_locations.get('locations')[location].get('system_state')
         locations.append(SimpliSafeSystem(api_interface, location, state))
     return locations
