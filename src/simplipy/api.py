@@ -52,12 +52,14 @@ class SimpliSafeApiInterface(object):
         self.session_id = response_object['session']
         self.uid = response_object['uid']
 
+        _LOGGER.info("Logged into SimpliSafe")
         return response_object
 
     def logout(self):
         """
         Log out of the API.
         """
+        _LOGGER.info("Logging out of SimpliSafe")
         url_string = "{}/logout".format(self.base_url)
         self.session.post(url_string)
 
@@ -70,9 +72,9 @@ class SimpliSafeApiInterface(object):
             state (str): The state to set. One of ['home', 'away', 'off']
         Returns (dictionary): Dictionary of the response JSON
         """
-        url_string = "{}/{}/sid/{}/set_state".format(self.base_url,
-                                                     self.uid,
-                                                     location_id)
+        url_string = "{}/{}/sid/{}/set-state".format(self.base_url,
+                                                                            self.uid,
+                                                                            location_id)
 
         state_data = {
             'state': state,
@@ -133,7 +135,6 @@ def get_systems(api_interface):
     json_locations = api_interface.get_locations()
     location_list = list(json_locations.get('locations'))
     for location in location_list:
-        print(location)
         state = json_locations.get('locations')[location].get('system_state')
         locations.append(SimpliSafeSystem(api_interface, location, state))
     return locations

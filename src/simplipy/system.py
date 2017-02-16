@@ -2,6 +2,8 @@
 SimpliSafe Alarm object.
 """
 
+_LOGGER = logging.getLogger(__name__)
+
 
 class SimpliSafeSystem(object):
     """
@@ -72,19 +74,31 @@ class SimpliSafeSystem(object):
         """
         return self.events.get("events")[0].get("event_desc")
 
-    def update(self):
+    def update(self, retry=True):
         """
         Fetch all of the latest states from the API.
         """
-        dashboard = self.api.get_state(self.location_id, "dashboard")
-        self.sensors = dashboard["location"]["monitoring"]
-        self.events = self.api.get_state(self.location_id, "events")
-        locations = self.api.get_locations()
-        location = locations.get('locations').get(self.location_id)
-        self.system_state = location.get('system_state')
+        try:
+            dashboard = self.api.get_state(self.location_id, "dashboard")
+            self.sensors = dashboard["location"]["monitoring"]
+            self.events = self.api.get_state(self.location_id, "events")
+            locations = self.api.get_locations()
+            location = locations.get('locations').get(self.location_id)
+            self.system_state = location.get('system_state')
+        except ValueError:
+            if retry:
+                _LOGGER.error("Invalid response from API. Attempting to log in again.")
+                self.api.login()
+                self.update(False)
 
-    def set_state(self, state):
+    def set_state(self, state, retry=True):
         """
         Set the state of the alarm system.
         """
-        self.api.set_state(self.location_id, state)
+        try:
+            self.api.set_device_state(self.location_id, state)
+        except ValueError:
+            if retry:
+                _LOGGER.error("Invalid response from API. Attempting to log in again.")
+                self.api.login()
+                self.set_state(state, False)
