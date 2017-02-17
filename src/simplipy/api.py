@@ -47,13 +47,14 @@ class SimpliSafeApiInterface(object):
         response = self.session.post(url_string, data=login_data)
         if response.json()["return_code"] != 1:
             _LOGGER.error("Invalid username or password")
+            return False
         response_object = response.json()
 
         self.session_id = response_object['session']
         self.uid = response_object['uid']
 
         _LOGGER.info("Logged into SimpliSafe")
-        return response_object
+        return True
 
     def logout(self):
         """
@@ -115,13 +116,13 @@ class SimpliSafeApiInterface(object):
         response = self.session.post(url_string)
         return response.json()
 
-    def set_credintials(self, username, password):
+    def set_credentials(self, username, password):
         """
         Sets the global variables used for authentication to the API.
         """
         self.username = username
         self.password = password
-        self.login()
+        return self.login()
 
 
 def get_systems(api_interface):
