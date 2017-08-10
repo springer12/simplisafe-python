@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.0.4
+- Don't log error when user doesn't have a freeze sensor
+
 ## 1.0.3
 
 - Added protection against incorrect data from SimpliSafe back-end

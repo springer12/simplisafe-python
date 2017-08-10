@@ -41,7 +41,10 @@ class SimpliSafeSystem(object):
         """
         try:
             api_temp = self.sensors.get("freeze").get("temp")
-            return int(api_temp)
+            if api_temp != "?":
+                return int(api_temp)
+            else:
+                return None
         except:
             _LOGGER.error("Could not get current temperature")
             return None
