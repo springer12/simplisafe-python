@@ -208,8 +208,12 @@ class SimpliSafeApiInterface(object):
             return False
 
         if _json.get("success"):
-            _sensors = _json["settings"]["sensors"]
-            self.sensors[location_id] = _sensors
+            if _version != 3:
+                _sensors = _json["settings"]["sensors"]
+                self.sensors[location_id] = _sensors
+            else:
+                _sensors = _josn["sensors"]
+                self.sensors[location_id] = _sensors
             return True
         else:
             _LOGGER.error("Something went wrong...")
