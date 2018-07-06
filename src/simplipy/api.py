@@ -188,9 +188,17 @@ class SimpliSafeApiInterface(object):
                 _version = subscription["location"]["system"]["version"]
 
         if _version != 3:
-            _url = SUBSCRIPTION_URL.format(location_id) + "settings?settingsType=all&cached=" + str(cached)
+            if cached:
+                _cache_string = "true"
+            else:
+                _cache_string = "false"
+            _url = SUBSCRIPTION_URL.format(location_id) + "settings?settingsType=all&cached=" + _cache_string
         else:
-            _url = V3_SENSORS_URL.format(location_id) + "sensors?forceUpdate=" + str(not cached)
+            if cached:
+                _cache_string = "false"
+            else:
+                _cache_string = "true"
+            _url = V3_SENSORS_URL.format(location_id) + "sensors?forceUpdate=" + _cache_string
 
         response = requests.get(_url, headers=OAUTH_HEADERS)
         _LOGGER.debug(response.content)
