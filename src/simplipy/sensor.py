@@ -16,8 +16,8 @@ class SimpliSafeSensor(object):
     """
     Represents a SimpliSafe sensor.
     """
-
-    def __init__(self, api_interface, sensor_dict):
+    
+    def __init__(self, api_interface, sensor_dict, version):
         """
         Sensor object.
 
@@ -35,10 +35,27 @@ class SimpliSafeSensor(object):
         self.serial = sensor_dict["serial"]
         self.name = sensor_dict["name"]
         # 255 = error?
-        self.status = sensor_dict["sensorStatus"]
-        self.data = sensor_dict["sensorData"]
-        self.error = sensor_dict["error"]
-        self.entry_status = sensor_dict.get("entryStatus")
+        if version != 3:
+            self.status = sensor_dict["sensorStatus"]
+            self.data = sensor_dict["sensorData"]
+            self.error = sensor_dict["error"]
+            self.entry_status = sensor_dict.get("entryStatus")
+        else:
+            self.status = self.getDictValues(sensor_dict, ["status" ,"triggered"], None)
+            if sensor_dict["type"] == 10:
+                self.data = self.getDictValues(sensor_dict, ["status" ,"temperature"], None)
+            else:
+                self.data = 0
+            self.error = self.getDictValues(sensor_dict, ["status" ,"malifunction"], False)
+
+    def getDictValues(self, dictionary, path, return_on_err):
+        currentDict=dictionary
+        for node in path:
+            if node in currentDict:
+                currentDict=currentDict[node]
+            else:
+                return return_on_err
+        return currentDict
 
     def status(self):
         """Return the current sensor status."""

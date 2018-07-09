@@ -16,7 +16,7 @@ TOKEN_URL = BASE_URL + "api/token"
 AUTH_CHECK_URL = BASE_URL + "api/authCheck"
 USERS_SUBSCRIPTIONS_URL = BASE_URL + "users/{}/subscriptions?activeOnly=true"
 SUBSCRIPTION_URL = BASE_URL + "subscriptions/{}/"
-V3_SENSORS_URL = BASE_URL + "/ss3/subscriptions/{}/"
+V3_SENSORS_URL = BASE_URL + "ss3/subscriptions/{}/"
 
 
 DEVICE_ID = "ANDROID; UserAgent=unknown Android SDK built for x86; Serial=unknown; ID=e36659c47cce2843;:"
@@ -139,10 +139,18 @@ class SimpliSafeApiInterface(object):
             state (str): The state to set. One of ['home', 'away', 'off']
         Returns (boolean): True or False (Was the command successful)
         """
+        _version = 2
+        for subscription in self.sids:
+            if subscription["sid"] == location_id:
+                _version = subscription["location"]["system"]["version"]
 
-        _url = SUBSCRIPTION_URL.format(location_id) + "/state?state=" + state
+        if _version != 3:
+            _url = SUBSCRIPTION_URL.format(location_id) + "state?state=" + state
+        else:
+            _url = V3_SENSORS_URL.format(location_id) + "state/" + state
 
-        response = requests.post(_url)
+
+        response = requests.post(_url, headers=OAUTH_HEADERS)
         _LOGGER.debug(response.content)
         for subscription in self.sids:
             if subscription["sid"] == location_id:
@@ -160,7 +168,7 @@ class SimpliSafeApiInterface(object):
             _LOGGER.error("Failed to decode JSON")
             return False
 
-        if _json.get("success"):
+        if _json.get("success") or response.status_code == 200:
             return True
         else:
             _log_string = _log_string + " " + _json.get("reason")
@@ -220,7 +228,7 @@ class SimpliSafeApiInterface(object):
                 _sensors = _json["settings"]["sensors"]
                 self.sensors[location_id] = _sensors
             else:
-                _sensors = _josn["sensors"]
+                _sensors = _json["sensors"]
                 self.sensors[location_id] = _sensors
             return True
         else:

@@ -31,7 +31,7 @@ class SimpliSafeSystem(object):
         self.sensors = []
         for sensor in sensor_list:
             if bool(sensor):
-                self.sensors.append(SimpliSafeSensor(api_interface, sensor))
+                self.sensors.append(SimpliSafeSensor(api_interface, sensor, system_dict["version"]))
 
     def state(self):
         """
