@@ -182,8 +182,8 @@ class SimpliSafeApiInterface(object):
         Args:
             location_id (int): The location id to get states for.
             cached (boolean): Weather or not the base station should be
-                              polled for the updated state. True will
-                              force an update but makes the base station
+                              polled for the updated state. True(v2) or False
+                              (v3) will force an update but makes the base station
                               speak that a sync occured. False will pull
                               results from last update.
         Returns (boolean): True or False (Was the command successful)

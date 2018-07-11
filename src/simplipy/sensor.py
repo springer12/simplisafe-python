@@ -41,21 +41,21 @@ class SimpliSafeSensor(object):
             self.error = sensor_dict["error"]
             self.entry_status = sensor_dict.get("entryStatus")
         else:
-            self.status = self.getDictValues(sensor_dict, ["status" ,"triggered"], None)
+            self.status = self.getDictValues(sensor_dict, ["status", "triggered"], None)
             if sensor_dict["type"] == 10:
-                self.data = self.getDictValues(sensor_dict, ["status" ,"temperature"], None)
+                self.data = self.getDictValues(sensor_dict, ["status", "temperature"], None)
             else:
                 self.data = 0
-            self.error = self.getDictValues(sensor_dict, ["status" ,"malifunction"], False)
+            self.error = self.getDictValues(sensor_dict, ["status", "malfunction"], False)
 
     def getDictValues(self, dictionary, path, return_on_err):
-        currentDict=dictionary
+        current_dict = dictionary
         for node in path:
-            if node in currentDict:
-                currentDict=currentDict[node]
+            if node in current_dict:
+                current_dict = current_dict[node]
             else:
                 return return_on_err
-        return currentDict
+        return current_dict
 
     def status(self):
         """Return the current sensor status."""
