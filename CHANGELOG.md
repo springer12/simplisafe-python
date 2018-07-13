@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.0.0
+- Moving to the new API
+
 ## 1.0.5
 - Get status from "Dashboard" request instead of "Locations" request because simplisafe was returning 'error' 
 

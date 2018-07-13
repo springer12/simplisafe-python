@@ -18,7 +18,6 @@ USERS_SUBSCRIPTIONS_URL = BASE_URL + "users/{}/subscriptions?activeOnly=true"
 SUBSCRIPTION_URL = BASE_URL + "subscriptions/{}/"
 V3_SENSORS_URL = BASE_URL + "ss3/subscriptions/{}/"
 
-
 DEVICE_ID = "ANDROID; UserAgent=unknown Android SDK built for x86; Serial=unknown; ID=e36659c47cce2843;:"
 USER_AGENT = "SimpliSafe Android App Build 20207"
 CONTENT_TYPE = "application/json; charset=UTF-8"
@@ -50,10 +49,10 @@ class SimpliSafeApiInterface(object):
             BASIC_AUTH_HEADERS["Authorization"] = "Basic " + basic_auth
         else:
             BASIC_AUTH_HEADERS["Authorization"] = "Basic " + BASIC_AUTH_STRING
-        if self._get_token() and self._get_user_id() and self._get_subscriptions():
-        	_LOGGER.info("Setup complete")
+        if self._get_token() and self._get_user_id() and self.get_subscriptions():
+            _LOGGER.info("Setup complete")
         else:
-        	_LOGGER.error("Failed to complete setup")
+            _LOGGER.error("Failed to complete setup")
 
     def _get_token(self):
         """
@@ -66,7 +65,6 @@ class SimpliSafeApiInterface(object):
             'username': self.username,
             'password': self.password
         }
-
 
         response = requests.post(TOKEN_URL, data=json.dumps(login_data),
                                  headers=BASIC_AUTH_HEADERS)
@@ -108,8 +106,7 @@ class SimpliSafeApiInterface(object):
         self.user_id = _json.get("userId")
         return True
 
-
-    def _get_subscriptions(self):
+    def get_subscriptions(self):
         """Get a list of a sids."""
 
         response = requests.get(USERS_SUBSCRIPTIONS_URL.format(self.user_id), headers=OAUTH_HEADERS)
@@ -129,7 +126,6 @@ class SimpliSafeApiInterface(object):
         self.sids = _json.get("subscriptions")
         return True
 
-
     def set_system_state(self, location_id, state):
         """
         Set the state of the alarm system.
@@ -148,7 +144,6 @@ class SimpliSafeApiInterface(object):
             _url = SUBSCRIPTION_URL.format(location_id) + "state?state=" + state
         else:
             _url = V3_SENSORS_URL.format(location_id) + "state/" + state
-
 
         response = requests.post(_url, headers=OAUTH_HEADERS)
         _LOGGER.debug(response.content)
@@ -170,10 +165,9 @@ class SimpliSafeApiInterface(object):
 
         if _json.get("success") or response.status_code == 200:
             return True
-        else:
-            _log_string = _log_string + " " + _json.get("reason")
-            _LOGGER.error(_log_string)
-            return False
+        _log_string = _log_string + " " + _json.get("reason")
+        _LOGGER.error(_log_string)
+        return False
 
     def _get_systems_devices_states(self, location_id, cached=True):
         """
@@ -196,17 +190,9 @@ class SimpliSafeApiInterface(object):
                 _version = subscription["location"]["system"]["version"]
 
         if _version != 3:
-            if cached:
-                _cache_string = "true"
-            else:
-                _cache_string = "false"
-            _url = SUBSCRIPTION_URL.format(location_id) + "settings?settingsType=all&cached=" + _cache_string
+            _url = SUBSCRIPTION_URL.format(location_id) + "settings?settingsType=all&cached=" + str(cached).lower()
         else:
-            if cached:
-                _cache_string = "false"
-            else:
-                _cache_string = "true"
-            _url = V3_SENSORS_URL.format(location_id) + "sensors?forceUpdate=" + _cache_string
+            _url = V3_SENSORS_URL.format(location_id) + "sensors?forceUpdate=" + str(not cached).lower()
 
         response = requests.get(_url, headers=OAUTH_HEADERS)
         _LOGGER.debug(response.content)
@@ -235,7 +221,7 @@ class SimpliSafeApiInterface(object):
             _LOGGER.error("Something went wrong...")
             return False
 
-    def _get_system_state(self, location_id):
+    def get_system_state(self, location_id):
         """
         Get the location_id's current system state.
 
@@ -246,7 +232,7 @@ class SimpliSafeApiInterface(object):
         for subscription in self.sids:
             if subscription["sid"] == location_id:
                 return subscription["location"]["system"]
-
+        return {}
 
     def get_systems(self):
         """
@@ -259,14 +245,12 @@ class SimpliSafeApiInterface(object):
         for subscription in self.sids:
             _location_id = subscription["sid"]
             self._get_systems_devices_states(_location_id)
-            _system_state = self._get_system_state(_location_id)
-            _system_state["sid"] = _location_id
-            _system = SimpliSafeSystem(self, _system_state, self.sensors[_location_id])
-            systems.append(_system)
+            _system_state = self.get_system_state(_location_id)
+            if _system_state:
+                _system_state["sid"] = _location_id
+                _system = SimpliSafeSystem(self, _system_state, self.sensors[_location_id])
+                systems.append(_system)
+            else:
+                _LOGGER.error("Empty system state")
 
         return systems
-
-    
-
-
-

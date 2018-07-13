@@ -3,9 +3,10 @@ SimpliSafe Alarm object.
 """
 import logging
 
-_LOGGER = logging.getLogger(__name__)
-
 from simplipy.sensor import SimpliSafeSensor
+
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class SimpliSafeSystem(object):
@@ -33,39 +34,18 @@ class SimpliSafeSystem(object):
             if bool(sensor):
                 self.sensors.append(SimpliSafeSensor(api_interface, sensor, system_dict["version"]))
 
-    def state(self):
-        """
-        Return the current state of the system. (str)
-        """
-        return self.state
-
-    def temperature(self):
-        """
-        Return the current temperature of the system.
-        """
-        return self.temperature
-
-
-    def last_event(self):
-        """
-        Return the last event sent by the system.
-        """
-        try:
-            return self.events.get("events")[0].get("event_desc")
-        except:
-            _LOGGER.error("Could not get last event")
-            return None
-
-    def update(self, retry=True):
+    def update(self):
         """
         Fetch all of the latest states from the API.
         """
-        self.api._get_subscriptions()
-        response = self.api._get_system_state()
-        self.location_id = response["sid"]
-        self.state = response["alarmState"]
-        self.alarm_active = response["isAlarming"]
-        self.temperature = response["temperature"]
+        self.api.get_subscriptions()
+        response = self.api.get_system_state(self.location_id)
+        if response:
+            self.state = response["alarmState"]
+            self.alarm_active = response["isAlarming"]
+            self.temperature = response["temperature"]
+        else:
+            _LOGGER.error("Empty system state, failed to update.")
 
     def set_state(self, state, retry=True):
         """
@@ -75,12 +55,11 @@ class SimpliSafeSystem(object):
             _LOGGER.debug("Successfuly set alarm state")
             self.update()
         else:
-            _LOGGER.error("Failed to set alarm state, trying again")
-            self.api.set_state(state, False)
+            if retry:
+                _LOGGER.error("Failed to set alarm state, trying again")
+                self.set_state(state, False)
+            else:
+                _LOGGER.error("Failed to set alarm state after retry")
 
     def get_sensors(self):
         return self.sensors
-
-
-
-

@@ -5,7 +5,6 @@ import logging
 
 _LOGGER = logging.getLogger(__name__)
 
-# Assuming that water leak is 9...
 SYSTEM_TYPE_MAP = {1: "keypad", 2: "keychain", 3: "panic button",
                    4: "motion", 5: "entry", 6: "glass break",
                    7: "carbon monoxide", 8: "smoke", 9: "leak",
@@ -16,7 +15,7 @@ class SimpliSafeSensor(object):
     """
     Represents a SimpliSafe sensor.
     """
-    
+
     def __init__(self, api_interface, sensor_dict, version):
         """
         Sensor object.
@@ -26,49 +25,64 @@ class SimpliSafeSensor(object):
                                    to and from the API.
             sensor_dict (dict): The sensor's current state.
         """
+        self.sensor_dict = sensor_dict
         _type = sensor_dict["type"]
         if _type in SYSTEM_TYPE_MAP.keys():
             self.type = SYSTEM_TYPE_MAP[_type]
         else:
             _LOGGER.error("Invalid sensor type, please report this")
-        self.battery = sensor_dict.get("battery")
-        self.serial = sensor_dict["serial"]
-        self.name = sensor_dict["name"]
-        # 255 = error?
-        if version != 3:
-            self.status = sensor_dict["sensorStatus"]
-            self.data = sensor_dict["sensorData"]
-            self.error = sensor_dict["error"]
-            self.entry_status = sensor_dict.get("entryStatus")
-        else:
-            self.status = self.getDictValues(sensor_dict, ["status", "triggered"], None)
-            if sensor_dict["type"] == 10:
-                self.data = self.getDictValues(sensor_dict, ["status", "temperature"], None)
-            else:
-                self.data = 0
-            self.error = self.getDictValues(sensor_dict, ["status", "malfunction"], False)
+        self.version = version
+        self.api_interface = api_interface
 
-    def getDictValues(self, dictionary, path, return_on_err):
-        current_dict = dictionary
+    def status(self):
+        """Return the current sensor status."""
+        if self.version != 3:
+            return self.sensor_dict["sensorStatus"]
+        if self.type == "temperature":
+            return self._get_dict_values(["status", "temperature"], None)
+        elif self.sensor_dict["type"] in [4, 5, 7, 8, 9]:
+            return self._get_dict_values(["status", "triggered"], None)
+        _LOGGER.debug(str(self.sensor_dict))
+        return None
+
+    def battery(self):
+        """Return the battery status of the sensor."""
+        if self.version != 3:
+            return self.sensor_dict["battery"]
+        return self._get_dict_values(["flags", "lowBattery"], False)
+
+    def data(self):
+        """Return the current sensor data."""
+        if self.version != 3:
+            return self.sensor_dict["sensorData"]
+        # V3 seems to abstract this data better so they don't send it?
+        return None
+
+    def error(self):
+        """Return error status."""
+        if self.version != 3:
+            return self.sensor_dict["error"]
+        return self._get_dict_values(["status", "malfunction"], False)
+
+    def offline(self):
+        """Return if the sensor is offline."""
+        if self.version != 3:
+            return False
+        return self._get_dict_values(["flags", "offline"], False)
+
+    def name(self):
+        """Return the sensor's name."""
+        return self.sensor_dict["name"]
+
+    def serial(self):
+        """Return the sensor's serial number."""
+        return self.sensor_dict["serial"]
+
+    def _get_dict_values(self, path, return_on_err):
+        current_dict = self.sensor_dict
         for node in path:
             if node in current_dict:
                 current_dict = current_dict[node]
             else:
                 return return_on_err
         return current_dict
-
-    def status(self):
-        """Return the current sensor status."""
-        return self.status
-
-    def data(self):
-        """Return the current sensor data."""
-        return self.data
-
-    def name(self):
-        """Return the sensor's name."""
-        return self.name
-
-    def serial(self):
-        """Return the sensor's serial number."""
-        return self.serial
