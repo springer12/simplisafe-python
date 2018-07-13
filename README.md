@@ -12,11 +12,20 @@ from simplipy.api import SimpliSafeApiInterface
 
 simplisafe = SimpliSafeApiInterface("USERNAME", "PASSWORD")
 
-
 for system in simplisafe.get_systems():
-    print(system.state)
-    print(str(simplisafe.sensors))
+    print("Location ID: " + str(system.location_id))
+    print("System version: " + str(system.version))
+    print("System state: " + str(system.state))
+    print("Alarming: " + str(system.alarm_active))
+    print("Temperature: " + str(system.temperature))
+    print("Sensors:")
     for sensor in system.get_sensors():
-        print(sensor.name)
-        print("\t" + str(sensor.status))
+       print("\t" + sensor.name())
+       print("\t\tType: " + str(sensor.type))
+       print("\t\tSerial: " + str(sensor.serial()))
+       print("\t\tData: " + str(sensor.data()))
+       print("\t\tStatus: " + str(sensor.status()))
+       print("\t\tBattery Ok: " + str(sensor.battery()))
+       print("\t\tOffline: " + str(sensor.offline()))
+       print("\t\tError: " + str(sensor.error()))
 ```

@@ -48,7 +48,7 @@ class SimpliSafeSensor(object):
     def battery(self):
         """Return the battery status of the sensor."""
         if self.version != 3:
-            return self.sensor_dict["battery"]
+            return self.sensor_dict.get("battery") == "ok"
         return self._get_dict_values(["flags", "lowBattery"], False)
 
     def data(self):
