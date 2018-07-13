@@ -38,20 +38,22 @@ class SimpliSafeSystem(object):
         """
         Fetch all of the latest states from the API.
         """
-        self.api.get_subscriptions()
-        response = self.api.get_system_state(self.location_id)
-        if response:
-            self.state = response["alarmState"]
-            self.alarm_active = response["isAlarming"]
-            self.temperature = response["temperature"]
+        if self.api.get_subscriptions():
+            response = self.api.get_system_state(self.location_id)
+            if response:
+                self.state = response["alarmState"]
+                self.alarm_active = response["isAlarming"]
+                self.temperature = response["temperature"]
+            else:
+                _LOGGER.error("Empty system state, failed to update.")
         else:
-            _LOGGER.error("Empty system state, failed to update.")
+            _LOGGER.error("Failed to get update.")
 
     def set_state(self, state, retry=True):
         """
         Set the state of the alarm system.
         """
-        if self.api.set_state(state):
+        if self.api.set_system_state(self.location_id, state):
             _LOGGER.debug("Successfuly set alarm state")
             self.update()
         else:

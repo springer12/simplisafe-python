@@ -49,7 +49,7 @@ class SimpliSafeApiInterface(object):
             BASIC_AUTH_HEADERS["Authorization"] = "Basic " + basic_auth
         else:
             BASIC_AUTH_HEADERS["Authorization"] = "Basic " + BASIC_AUTH_STRING
-        if self._get_token() and self._get_user_id() and self.get_subscriptions():
+        if self._get_token() and self.get_subscriptions():
             _LOGGER.info("Setup complete")
         else:
             _LOGGER.error("Failed to complete setup")
@@ -81,7 +81,39 @@ class SimpliSafeApiInterface(object):
         self.access_token = _json.get("access_token")
         self.refresh_token = _json.get("refresh_token")
 
-        _LOGGER.info("Logged into SimpliSafe")
+        if self._get_user_id():
+            _LOGGER.info("Logged into SimpliSafe")
+            return True
+        return False
+
+    def _refresh_token(self):
+        """
+        Attempt to refresh the token.
+        """
+
+        refresh_data = {
+            'grant_type': "refresh_token",
+            'refresh_token': self.refresh_token
+        }
+
+        response = requests.post(TOKEN_URL, data=json.dumps(refresh_data),
+                                 headers=BASIC_AUTH_HEADERS)
+        _LOGGER.debug(response.content)
+        if response.status_code != 200:
+            _LOGGER.error("Failed to get refresh token, logging in again")
+            self._get_token()
+            return False
+        try:
+            _json = response.json()
+        except ValueError:
+            _LOGGER.error("Failed to decode JSON")
+            return False
+
+        self.access_token = _json.get("access_token")
+        self.refresh_token = _json.get("refresh_token")
+        self._get_user_id()
+
+        _LOGGER.info("Token was refreshed")
         return True
 
     def _get_user_id(self):
@@ -93,7 +125,7 @@ class SimpliSafeApiInterface(object):
         _LOGGER.debug(response.content)
         if response.status_code == 401:
             _LOGGER.error("Token expired, getting new token")
-            self._get_token()
+            self._refresh_token()
             return False
         if response.status_code != 200:
             _LOGGER.error("Failed to get user ID")
@@ -113,7 +145,7 @@ class SimpliSafeApiInterface(object):
         _LOGGER.debug(response.content)
         if response.status_code == 401:
             _LOGGER.error("Token expired, getting new token")
-            self._get_token()
+            self._refresh_token()
             return False
         if response.status_code != 200:
             _LOGGER.error("Failed to get subscriptions")
@@ -152,7 +184,7 @@ class SimpliSafeApiInterface(object):
                 _log_string = "Failed to set {} state to {}".format(subscription["location"]["street1"], state)
         if response.status_code == 401:
             _LOGGER.error("Token expired, getting new token")
-            self._get_token()
+            self._refresh_token()
             return False
         if response.status_code != 200:
             _LOGGER.error(_log_string)
@@ -198,7 +230,7 @@ class SimpliSafeApiInterface(object):
         _LOGGER.debug(response.content)
         if response.status_code == 401:
             _LOGGER.error("Token expired, getting new token")
-            self._get_token()
+            self._refresh_token()
             return False
         if response.status_code != 200:
             _LOGGER.error("Failed to pull updated sensor states")
