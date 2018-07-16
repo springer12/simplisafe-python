@@ -232,11 +232,15 @@ class SimpliSafeApiInterface(object):
             _LOGGER.error("Token expired, getting new token")
             self._refresh_token()
             return False
-        if response.status_code != 200:
-            _LOGGER.error("Failed to pull updated sensor states")
-            return False
         try:
             _json = response.json()
+            if response.status_code != 200:
+                if _json.get("errorType") == "NoRemoteManagement":
+                    _LOGGER.error("No monthly monitoring on account, only system status is availble")
+                    self.sensors[location_id] = {}
+                    return True
+                _LOGGER.error("Failed to pull updated sensor states")
+                return False
         except ValueError:
             _LOGGER.error("Failed to decode JSON")
             return False

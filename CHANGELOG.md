@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.0.1
+- Allow users without monthly monitoring to get system status
+
 ## 2.0.0
 - Moving to the new API
 
