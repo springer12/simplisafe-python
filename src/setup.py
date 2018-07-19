@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='simplisafe-python',
-      version='2.0.1',
+      version='2.0.2',
       description='Python 3 support for SimpliSafe alarm',
       url='https://github.com/w1ll1am23/simplisafe-python',
       author='William Scanlon',

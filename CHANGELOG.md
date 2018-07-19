@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.0.2
+- Raise exception when setup doesn't complete
+
 ## 2.0.1
 - Allow users without monthly monitoring to get system status
 

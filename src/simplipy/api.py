@@ -53,6 +53,7 @@ class SimpliSafeApiInterface(object):
             _LOGGER.info("Setup complete")
         else:
             _LOGGER.error("Failed to complete setup")
+            raise SimpliSafeAPIException("Failed to complete setup")
 
     def _get_token(self):
         """
@@ -290,3 +291,6 @@ class SimpliSafeApiInterface(object):
                 _LOGGER.error("Empty system state")
 
         return systems
+
+class SimpliSafeAPIException(Exception):
+    pass
