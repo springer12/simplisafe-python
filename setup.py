@@ -27,6 +27,7 @@ VERSION = None
 REQUIRED = [  # type: ignore
     'aiodns',
     'aiohttp',
+    'async-timeout',
 ]
 
 # The rest you shouldn't have to touch too much :)

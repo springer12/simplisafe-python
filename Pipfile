@@ -17,3 +17,4 @@ twine = "*"
 [packages]
 aiodns = "*"
 aiohttp = "*"
+async-timeout = "*"
