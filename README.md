@@ -1,4 +1,4 @@
-# 🚨 simplipy: A Python3, async interface to the SimpliSafe API
+# 🚨 simplisafe-python: A Python3, async interface to the SimpliSafe API
 
 [![Travis CI](https://travis-ci.org/bachya/simplisafe-python.svg?branch=master)](https://travis-ci.org/bachya/simplisafe-python)
 [![PyPi](https://img.shields.io/pypi/v/simplipy.svg)](https://pypi.python.org/pypi/simplipy)
@@ -38,7 +38,7 @@ If you wish to continue using the previous, synchronous version of
 # Installation
 
 ```python
-pip install python-simplisafe
+pip install simplisafe-python
 ```
 
 # Usage
