@@ -1,4 +1,4 @@
-# 🚨 simplisafe-python: A Python3, async interface to the SimpliSafe API
+# 🚨 simplisafe-python: A Python3, async interface to the SimpliSafe™ API
 
 [![Travis CI](https://travis-ci.org/bachya/simplisafe-python.svg?branch=master)](https://travis-ci.org/bachya/simplisafe-python)
 [![PyPi](https://img.shields.io/pypi/v/simplisafe-python.svg)](https://pypi.python.org/pypi/simplisafe-python)
@@ -9,11 +9,11 @@
 [![Say Thanks](https://img.shields.io/badge/SayThanks-!-1EAEDB.svg)](https://saythanks.io/to/bachya)
 
 `simplisafe-python` (hereafter referred to as `simplipy`) is a Python3,
-`asyncio`-driven interface to the unofficial SimpliSafe API. With it, users can
+`asyncio`-driven interface to the unofficial SimpliSafe™ API. With it, users can
 get data on their system (including available sensors), set the system state,
 and more.
 
-**NOTE:** SimpliSafe has no official API; therefore, this library may stop
+**NOTE:** SimpliSafe™ has no official API; therefore, this library may stop
 working at any time without warning.
 
 **SPECIAL THANKS:** Original inspiration was obtained from
@@ -63,7 +63,7 @@ async def main() -> None:
 asyncio.get_event_loop().run_until_complete(main())
 ```
 
-To get all SimpliSafe systems associated with an account:
+To get all SimpliSafe™ systems associated with an account:
 
 ```python
 import asyncio
@@ -86,10 +86,10 @@ asyncio.get_event_loop().run_until_complete(main())
 ## The `System` Object
 
 `System` objects are used to retrieve data on and control the state
-of SimpliSafe systems. Two types of objects can be returned:
+of SimpliSafe™ systems. Two types of objects can be returned:
 
-* `SystemV2`: an object to control V2 (classic) SimpliSafe systems
-* `SystemV3`: an object to control V3 (new, released in 2018) SimpliSafe systems
+* `SystemV2`: an object to control V2 (classic) SimpliSafe™ systems
+* `SystemV3`: an object to control V3 (new, released in 2018) SimpliSafe™ systems
 
 Despite the differences, `simplipy` provides a common interface to
 these objects, meaning the same properties and methods are available to both.
@@ -107,9 +107,9 @@ async def main() -> None:
       # >>> [<simplipy.system.SystemV2 object at 0x10661e3c8>]
 
       for system in systems:
-        # Return a reference to a SimpliSafe account object (detailed later):
+        # Return a reference to a SimpliSafe™ account object (detailed later):
         system.account
-        # >>> <simplipy.account.SimpliSafe object at 0x12aba2321>
+        # >>> <simplipy.account.SimpliSafe™ object at 0x12aba2321>
 
         # Return whether the alarm is currently going off:
         system.alarm_going_off
@@ -127,17 +127,17 @@ async def main() -> None:
         system.state
         # >>> simplipy.system.SystemStates.away
 
-        # Return the SimpliSafe identifier for this system:
+        # Return the SimpliSafe™ identifier for this system:
         system.system_id
         # >>> 1234ABCD
 
-        # Return the SimpliSafe version:
+        # Return the SimpliSafe™ version:
         system.version
         # >>> 2
 
         # Return a list of events for the system with an optional start timestamp and
         # number of events - omitting these parameters will return all events (max of
-        # 50) stored in SimpliSafe's cloud:
+        # 50) stored in SimpliSafe™'s cloud:
         await system.get_events(from_timestamp=1534035861, num_events=2)
         # >>> return {"numEvents": 2, "lastEventTimestamp": 1534035861, "events": [{...}]}
 
@@ -166,7 +166,7 @@ There are two crucial differences between V2 and V3 systems when updating:
 
 ## The `Sensor` Object
 
-`Sensor` objects provide information about the SimpliSafe sensors to
+`Sensor` objects provide information about the SimpliSafe™ sensors to
 which they relate.
 
 **NOTE:** Individual sensors cannot be updated directly; instead,
@@ -176,8 +176,8 @@ crucial to remember that sensor values are only as current as the last time
 
 Like their `System` cousins, two types of objects can be returned:
 
-* `SensorV2`: an object to view V2 (classic) SimpliSafe sensors
-* `SensorV3`: an object to view V3 (new, released in 2018) SimpliSafe sensors
+* `SensorV2`: an object to view V2 (classic) SimpliSafe™ sensors
+* `SensorV3`: an object to view V3 (new, released in 2018) SimpliSafe™ sensors
 
 Once again, `simplipy` provides a common interface to
 these objects; however, there are some properties that are either (a) specific
@@ -286,7 +286,7 @@ contains properties and a method useful for authentication and ongoing
 access.
 
 **VERY IMPORTANT NOTE:** the `Account` object contains references to
-SimpliSafe access and refresh tokens. **It is vitally important that you do
+SimpliSafe™ access and refresh tokens. **It is vitally important that you do
 not let these tokens leave your control.** If exposed, savvy attackers could
 use them to view and alter your system's state. **You have been warned; proper
 usage of these properties is solely your responsibility.**
@@ -308,7 +308,7 @@ async def main() -> None:
         system.account.refresh_token
         # >>> 896sad86gudas87d6asd
 
-        # Return the SimpliSafe user ID associated with this account:
+        # Return the SimpliSafe™ user ID associated with this account:
         system.account.user_id
         # >>> 1234567
 
@@ -330,7 +330,7 @@ asyncio.get_event_loop().run_until_complete(main())
 # Refreshing the Access Token
 
 When `simplipy.get_systems()` is run, everything is set to make repeated
-authorized requests against the SimpliSafe cloud. At some point, however, the
+authorized requests against the SimpliSafe™ cloud. At some point, however, the
 access token will expire and any future requests will raise
 `simplipy.errors.TokenExpiredError`.
 
