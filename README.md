@@ -1,12 +1,12 @@
 # 🚨 simplipy: A Python3, async interface to the SimpliSafe API
 
-[![Travis CI](https://travis-ci.org/w1ll1am23/simplipy.svg?branch=master)](https://travis-ci.org/w1ll1am23/simplipy)
+[![Travis CI](https://travis-ci.org/bachya/simplisafe-python.svg?branch=master)](https://travis-ci.org/bachya/simplisafe-python)
 [![PyPi](https://img.shields.io/pypi/v/simplipy.svg)](https://pypi.python.org/pypi/simplipy)
 [![Version](https://img.shields.io/pypi/pyversions/simplipy.svg)](https://pypi.python.org/pypi/simplipy)
-[![License](https://img.shields.io/pypi/l/simplipy.svg)](https://github.com/w1ll1am23/simplipy/blob/master/LICENSE)
-[![Code Coverage](https://codecov.io/gh/w1ll1am23/simplipy/branch/master/graph/badge.svg)](https://codecov.io/gh/w1ll1am23/simplipy)
-[![Maintainability](https://api.codeclimate.com/v1/badges/af60d65b69d416136fc9/maintainability)](https://codeclimate.com/github/bachya/py17track/maintainability)
-[![Say Thanks](https://img.shields.io/badge/SayThanks-!-1EAEDB.svg)](https://saythanks.io/to/w1ll1am23)
+[![License](https://img.shields.io/pypi/l/simplipy.svg)](https://github.com/bachya/simplisafe-python/blob/master/LICENSE)
+[![Code Coverage](https://codecov.io/gh/bachya/simplisafe-python/branch/master/graph/badge.svg)](https://codecov.io/gh/bachya/simplisafe-python)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f46d8b1dcfde6a2f683d/maintainability)](https://codeclimate.com/github/bachya/simplisafe-python/maintainability)
+[![Say Thanks](https://img.shields.io/badge/SayThanks-!-1EAEDB.svg)](https://saythanks.io/to/bachya)
 
 `simplisafe-python` (hereafter referred to as `simplipy`) is a Python3,
 `asyncio`-driven interface to the unofficial SimpliSafe API. With it, users can
