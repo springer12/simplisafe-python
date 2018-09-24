@@ -8,8 +8,11 @@ matrix:
       after_success: "pipenv run codecov"
     - python: "3.7"
       dist: xenial
+      sudo: true
 
-language: python
+cache:
+  directories:
+    - $HOME/.cache/pip
 install: "make init"
+language: python
 script: "pipenv run make ci"
-cache: "pip"
