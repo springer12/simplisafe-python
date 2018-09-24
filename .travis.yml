@@ -6,8 +6,4 @@ python:
 install: "make init"
 script: "pipenv run make ci"
 cache: "pip"
-jobs:
-  include:
-    - stage: "coverage"
-      python: "3.6"
-      script: "pipenv run codecov"
+after_success: "pipenv run codecov"
