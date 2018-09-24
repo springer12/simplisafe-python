@@ -20,7 +20,7 @@ DESCRIPTION = 'A Python3, async interface to the SimpliSafe API'
 URL = 'https://github.com/w1ll1am23/simplisafe-python'
 EMAIL = ''
 AUTHOR = 'William Scanlon and Aaron Bach'
-REQUIRES_PYTHON = '>=3.5.0'
+REQUIRES_PYTHON = '>=3.6.0'
 VERSION = None
 
 # What packages are required for this module to be executed?
@@ -120,7 +120,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: Implementation :: CPython',

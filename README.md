@@ -29,7 +29,7 @@ changes:
   [Requests](http://docs.python-requests.org/en/master/) to
   [aiohttp](https://aiohttp.readthedocs.io/en/stable/)
 * Changes the entire library to use `asyncio`
-* Makes 3.5 the minimum version of Python required
+* Makes 3.6 the minimum version of Python required
 
 If you wish to continue using the previous, synchronous version of
 `simplipy`, make sure to pin version 2.0.2.
