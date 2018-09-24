@@ -12,4 +12,4 @@ lint:
 publish:
 	python setup.py sdist bdist_wheel
 	pipenv run twine upload dist/*
-	rm -rf dist/ build/ .egg simplisafe-python.egg-info/
+	rm -rf dist/ build/ .egg simplisafe_python.egg-info/
