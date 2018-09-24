@@ -361,9 +361,9 @@ however, the system object(s) will need to be recreated via
 
 # Contributing
 
-1. [Check for open features/bugs](https://github.com/w1ll1am23/simplisafe-python/issues)
-  or [initiate a discussion on one](https://github.com/w1ll1am23/simplisafe-python/issues/new).
-2. [Fork the repository](https://github.com/w1ll1am23/simplisafe-python/fork).
+1. [Check for open features/bugs](https://github.com/bachya/simplisafe-python/issues)
+  or [initiate a discussion on one](https://github.com/bachya/simplisafe-python/issues/new).
+2. [Fork the repository](https://github.com/bachya/simplisafe-python/fork).
 3. Install the dev environment: `make init`.
 4. Enter the virtual environment: `pipenv shell`
 5. Code your new feature or bug fix.
