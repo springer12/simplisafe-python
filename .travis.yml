@@ -4,10 +4,10 @@ language: python
 python:
   - "3.6"
 install: "make init"
-script: "make ci"
+script: "pipenv run make ci"
 cache: "pip"
 jobs:
   include:
     - stage: "coverage"
       python: "3.6"
-      script: "pipenv run codecov"
+      script: "pipenv run make coverage"
