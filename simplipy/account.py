@@ -15,15 +15,12 @@ DEFAULT_AUTH_USERNAME = 'a9c490a5-28c7-48c8-a8c3-1f1d7faa1394.2074.0.0.com.' \
 URL_HOSTNAME = 'api.simplisafe.com'
 URL_BASE = 'https://{0}/v1'.format(URL_HOSTNAME)
 
-SYSTEM_MAP = {
-    2: SystemV2,
-    3: SystemV3
-}
+SYSTEM_MAP = {2: SystemV2, 3: SystemV3}
 
 
 # pylint: disable=protected-access
 async def get_systems(
-        email: str, password: str, websession: ClientSession) -> list:
+    email: str, password: str, websession: ClientSession) -> list:
     """Return a list of systems."""
     account = SimpliSafe(websession)
     await account._login(email, password)
@@ -48,7 +45,8 @@ class SimpliSafe:
             'post',
             'api/token',
             data=payload_data,
-            auth=BasicAuth(DEFAULT_AUTH_USERNAME, ''))
+            auth=BasicAuth(
+                login=DEFAULT_AUTH_USERNAME, password='', encoding='latin1'))
         self.access_token = token_resp['access_token']
         self._access_token_expire = datetime.now() + timedelta(
             seconds=int(token_resp['expires_in']))
@@ -91,8 +89,10 @@ class SimpliSafe:
     async def refresh_access_token(self, refresh_token: str = None) -> None:
         """Regenerate an access token using the stored refresh token."""
         await self._authenticate({
-            'grant_type': 'refresh_token',
-            'username': self._email,
+            'grant_type':
+                'refresh_token',
+            'username':
+                self._email,
             'refresh_token':
                 refresh_token if refresh_token else self.refresh_token,
         })
