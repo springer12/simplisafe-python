@@ -20,7 +20,7 @@ SYSTEM_MAP = {2: SystemV2, 3: SystemV3}
 
 # pylint: disable=protected-access
 async def get_systems(
-    email: str, password: str, websession: ClientSession) -> list:
+        email: str, password: str, websession: ClientSession) -> list:
     """Return a list of systems."""
     account = SimpliSafe(websession)
     await account._login(email, password)
