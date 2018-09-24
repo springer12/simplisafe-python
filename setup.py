@@ -15,6 +15,7 @@ from setuptools import find_packages, setup, Command  # type: ignore
 
 # Package meta-data.
 NAME = 'simplisafe-python'
+ALIAS = 'simplipy'
 DESCRIPTION = 'A Python3, async interface to the SimpliSafe API'
 URL = 'https://github.com/w1ll1am23/simplisafe-python'
 EMAIL = ''
@@ -38,13 +39,13 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 
 # Import the README and use it as the long-description.
 # Note: this will only work if 'README.md' is present in your MANIFEST.in file!
-with io.open(os.path.join(HERE, 'README.rst'), encoding='utf-8') as f:
+with io.open(os.path.join(HERE, 'README.md'), encoding='utf-8') as f:
     LONG_DESC = '\n' + f.read()
 
 # Load the package's __version__.py module as a dictionary.
 ABOUT = {}  # type: ignore
 if not VERSION:
-    with open(os.path.join(HERE, NAME, '__version__.py')) as f:
+    with open(os.path.join(HERE, ALIAS, '__version__.py')) as f:
         exec(f.read(), ABOUT)  # pylint: disable=exec-used
 else:
     ABOUT['__version__'] = VERSION
