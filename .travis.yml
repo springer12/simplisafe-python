@@ -2,13 +2,7 @@
 sudo: false
 language: python
 python:
-  - "3.5"
   - "3.6"
-matrix:
-  include:
-    - python: 3.7
-      dist: xenial
-      sudo: true
 install: "make init"
 script: "pipenv run make ci"
 cache: "pip"
