@@ -48,7 +48,7 @@ class SimpliSafe:
             'post',
             'api/token',
             data=payload_data,
-            auth=BasicAuth(DEFAULT_AUTH_USERNAME))
+            auth=BasicAuth(DEFAULT_AUTH_USERNAME, ''))
         self.access_token = token_resp['access_token']
         self._access_token_expire = datetime.now() + timedelta(
             seconds=int(token_resp['expires_in']))
