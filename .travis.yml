@@ -10,4 +10,4 @@ jobs:
   include:
     - stage: "coverage"
       python: "3.6"
-      script: "pipenv run make coverage"
+      script: "pipenv run codecov"
