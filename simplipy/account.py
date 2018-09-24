@@ -1,11 +1,12 @@
 """Define a SimpliSafe account."""
+# pylint: disable=import-error, unused-import
 from datetime import datetime, timedelta
-from typing import List, Union
+from typing import List, Union  # noqa
 
 from aiohttp import BasicAuth, ClientSession, client_exceptions
 
 from .errors import RequestError, TokenExpiredError
-from .system import System, SystemV2, SystemV3
+from .system import System, SystemV2, SystemV3  # noqa
 
 DEFAULT_USER_AGENT = 'SimpliSafe/2105 CFNetwork/902.2 Darwin/17.7.0'
 DEFAULT_AUTH_USERNAME = 'a9c490a5-28c7-48c8-a8c3-1f1d7faa1394.2074.0.0.com.' \

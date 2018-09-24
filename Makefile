@@ -1,5 +1,3 @@
-ci:
-	pipenv run py.test --junitxml=report.xml
 coverage:
 	pipenv run py.test -s --verbose --cov-report term-missing --cov-report xml --cov=simplipy tests
 init:
@@ -7,9 +5,12 @@ init:
 	pipenv lock
 	pipenv install --dev
 lint:
-	pipenv run flake8 simplisafe-python
-	pipenv run pydocstyle simplisafe-python
+	pipenv run flake8 simplipy
+	pipenv run pydocstyle simplipy
+	pipenv run pylint simplipy
 publish:
 	python setup.py sdist bdist_wheel
 	pipenv run twine upload dist/*
 	rm -rf dist/ build/ .egg simplisafe_python.egg-info/
+test:
+	pipenv run py.test

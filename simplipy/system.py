@@ -1,7 +1,7 @@
 """Define a SimpliSafe system (attached to a location)."""
 import logging
 from enum import Enum
-from typing import Dict, Union
+from typing import Dict, Union  # noqa, pylint: disable=unused-import
 
 from .sensor import SensorV2, SensorV3
 from .util.string import convert_to_underscore
