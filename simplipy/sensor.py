@@ -1,88 +1,125 @@
-"""
-SimpliSafe sensor object.
-"""
+"""Define a SimpliSafe sensor."""
 import logging
+from enum import Enum
+from typing import Union
 
 _LOGGER = logging.getLogger(__name__)
 
-SYSTEM_TYPE_MAP = {1: "keypad", 2: "keychain", 3: "panic button",
-                   4: "motion", 5: "entry", 6: "glass break",
-                   7: "carbon monoxide", 8: "smoke", 9: "leak",
-                   10: "temperature"}
+
+class SensorTypes(Enum):
+    """Define sensor types."""
+
+    keypad = 1
+    keychain = 2
+    panic_button = 3
+    motion = 4
+    entry = 5
+    glass_break = 6
+    carbon_monoxide = 7
+    smoke = 8
+    leak = 9
+    temperature = 10
+    siren = 13
+    unknown = 99
 
 
-class SimpliSafeSensor(object):
-    """
-    Represents a SimpliSafe sensor.
-    """
+class Sensor:
+    """Define a base SimpliSafe sensor."""
 
-    def __init__(self, api_interface, sensor_dict, version):
-        """
-        Sensor object.
+    def __init__(self, sensor_data: dict) -> None:
+        """Initialize."""
+        self.sensor_data = sensor_data
 
-        Args:
-            api_interfce (object): The API object to handle communication
-                                   to and from the API.
-            sensor_dict (dict): The sensor's current state.
-        """
-        self.sensor_dict = sensor_dict
-        _type = sensor_dict["type"]
-        if _type in SYSTEM_TYPE_MAP.keys():
-            self.type = SYSTEM_TYPE_MAP[_type]
-        else:
-            _LOGGER.error("Invalid sensor type, please report this")
-        self.version = version
-        self.api_interface = api_interface
+        try:
+            self._type = SensorTypes(sensor_data['type'])
+        except ValueError:
+            _LOGGER.error('Unknown sensor type: %s', self.sensor_data['type'])
+            self._type = SensorTypes.unknown
 
-    def status(self):
-        """Return the current sensor status."""
-        if self.version != 3:
-            return self.sensor_dict["sensorStatus"]
-        if self.type == "temperature":
-            return self._get_dict_values(["status", "temperature"], None)
-        elif self.sensor_dict["type"] in [4, 5, 7, 8, 9]:
-            return self._get_dict_values(["status", "triggered"], None)
-        _LOGGER.debug(str(self.sensor_dict))
-        return None
+    @property
+    def name(self) -> str:
+        """Return the sensor name."""
+        return self.sensor_data['name']
 
-    def battery(self):
-        """Return the battery status of the sensor."""
-        if self.version != 3:
-            return self.sensor_dict.get("battery") == "ok"
-        return self._get_dict_values(["flags", "lowBattery"], False)
+    @property
+    def serial(self) -> str:
+        """Return the serial number."""
+        return self.sensor_data['serial']
 
-    def data(self):
-        """Return the current sensor data."""
-        if self.version != 3:
-            return self.sensor_dict["sensorData"]
-        # V3 seems to abstract this data better so they don't send it?
-        return None
+    @property
+    def type(self) -> SensorTypes:
+        """Return the sensor type."""
+        return self._type
 
-    def error(self):
-        """Return error status."""
-        if self.version != 3:
-            return self.sensor_dict["error"]
-        return self._get_dict_values(["status", "malfunction"], False)
 
-    def offline(self):
-        """Return if the sensor is offline."""
-        if self.version != 3:
-            return False
-        return self._get_dict_values(["flags", "offline"], False)
+class SensorV2(Sensor):
+    """Define a V2 (old) sensor."""
 
-    def name(self):
-        """Return the sensor's name."""
-        return self.sensor_dict["name"]
+    @property
+    def data(self) -> int:
+        """Return the sensor's current data."""
+        return self.sensor_data['sensorData']
 
-    def serial(self):
-        """Return the sensor's serial number."""
-        return self.sensor_dict["serial"]
+    @property
+    def error(self) -> bool:
+        """Return the sensor's error status."""
+        return self.sensor_data['error']
 
-    def _get_dict_values(self, path, return_on_err):
-        current_dict = self.sensor_dict
-        for node in path:
-            if node in current_dict:
-                current_dict = current_dict[node]
-            else:
-                return return_on_err
-        return current_dict
+    @property
+    def low_battery(self) -> bool:
+        """Return whether the sensor's battery is low."""
+        return self.sensor_data.get('battery', 'ok') != 'ok'
+
+    @property
+    def settings(self) -> bool:
+        """Return the sensor's settings."""
+        return self.sensor_data['setting']
+
+    @property
+    def triggered(self) -> bool:
+        """Return the current sensor state."""
+        return self.sensor_data.get('sensorStatus', 0) != 0
+
+
+class SensorV3(Sensor):
+    """Define a V3 (new) sensor."""
+
+    @property
+    def error(self) -> bool:
+        """Return the sensor's error status."""
+        return self.sensor_data['status'].get('malfunction', False)
+
+    @property
+    def low_battery(self) -> bool:
+        """Return whether the sensor's battery is low."""
+        return self.sensor_data['flags']['lowBattery']
+
+    @property
+    def offline(self) -> bool:
+        """Return whether the sensor is offline."""
+        return self.sensor_data['flags']['offline']
+
+    @property
+    def settings(self) -> dict:
+        """Return the sensor's settings."""
+        return self.sensor_data['setting']
+
+    @property
+    def triggered(self) -> bool:
+        """Return the sensor's status info."""
+        if self.type in (SensorTypes.motion, SensorTypes.entry,
+                         SensorTypes.glass_break, SensorTypes.carbon_monoxide,
+                         SensorTypes.smoke, SensorTypes.leak,
+                         SensorTypes.temperature):
+            return self.sensor_data['status'].get('triggered', False)
+
+        return False
+
+    @property
+    def temperature(self) -> Union[None, int]:
+        """Return the sensor's status info."""
+        if self.type != SensorTypes.temperature:
+            raise ValueError(
+                'Non-temperature sensor cannot have a temperature')
+
+        return self.sensor_data['status']['temperature']
