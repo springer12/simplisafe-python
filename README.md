@@ -369,5 +369,5 @@ however, the system object(s) will need to be recreated via
 5. Code your new feature or bug fix.
 6. Write a test that covers your new functionality.
 7. Run tests and ensure 100% code coverage: `make coverage`
-8. Add yourself to `AUTHORS.rst`.
+8. Add yourself to `AUTHORS.md`.
 9. Submit a pull request!
