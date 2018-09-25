@@ -9,7 +9,7 @@ lint:
 	pipenv run pydocstyle simplipy
 	pipenv run pylint simplipy
 publish:
-	python setup.py sdist bdist_wheel
+	pipenv run python setup.py sdist bdist_wheel
 	pipenv run twine upload dist/*
 	rm -rf dist/ build/ .egg simplisafe_python.egg-info/
 test:
