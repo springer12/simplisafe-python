@@ -13,10 +13,12 @@ class SystemStates(Enum):
     """Define states that the system can be in."""
 
     away = 1
-    entry_delay = 2
-    exit_delay = 3
-    home = 4
-    off = 5
+    away_count = 2
+    entry_delay = 3
+    exit_delay = 4
+    home = 5
+    home_count = 5
+    off = 6
     unknown = 99
 
 
