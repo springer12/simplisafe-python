@@ -59,6 +59,11 @@ class System:
         return self._location_info['sid']
 
     @property
+    def temperature(self) -> int:
+        """Return the overall temperature measured by the system."""
+        return self._location_info['system']['temperature']
+
+    @property
     def version(self) -> int:
         """Return the system version."""
         return self._location_info['system']['version']

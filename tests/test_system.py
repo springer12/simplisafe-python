@@ -106,6 +106,7 @@ async def test_properties_base(event_loop, v2_server):
             assert system.serial == TEST_SYSTEM_SERIAL_NO
             assert system.state == SystemStates.off
             assert system.system_id == TEST_SYSTEM_ID
+            assert system.temperature == 67
             assert system.version == 2
 
 
