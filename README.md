@@ -131,6 +131,10 @@ async def main() -> None:
         system.system_id
         # >>> 1234ABCD
 
+        # Return the average of all temperature sensors (if they exist):
+        system.temperature
+        # >>> 67
+
         # Return the SimpliSafe™ version:
         system.version
         # >>> 2
