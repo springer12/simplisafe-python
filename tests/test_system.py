@@ -9,7 +9,7 @@ import pytest
 from simplipy import get_systems
 from simplipy.account import SimpliSafe
 from simplipy.errors import RequestError, TokenExpiredError
-from simplipy.system import System, SystemStates
+from simplipy.system import System
 
 from .const import (
     TEST_ACCESS_TOKEN, TEST_EMAIL, TEST_PASSWORD, TEST_REFRESH_TOKEN,
@@ -104,7 +104,7 @@ async def test_properties_base(event_loop, v2_server):
             [system] = await get_systems(TEST_EMAIL, TEST_PASSWORD, websession)
             assert not system.alarm_going_off
             assert system.serial == TEST_SYSTEM_SERIAL_NO
-            assert system.state == SystemStates.off
+            assert system.state == system.SystemStates.off
             assert system.system_id == TEST_SYSTEM_ID
             assert system.temperature == 67
             assert system.version == 2
@@ -168,16 +168,16 @@ async def test_set_states_v2(
             [system] = await get_systems(TEST_EMAIL, TEST_PASSWORD, websession)
 
             await system.set_away()
-            assert system.state == SystemStates.away
+            assert system.state == system.SystemStates.away
 
             await system.set_home()
-            assert system.state == SystemStates.home
+            assert system.state == system.SystemStates.home
 
             await system.set_off()
-            assert system.state == SystemStates.off
+            assert system.state == system.SystemStates.off
 
             await system.set_off()
-            assert system.state == SystemStates.off
+            assert system.state == system.SystemStates.off
 
 
 @pytest.mark.asyncio
@@ -191,22 +191,22 @@ async def test_set_states_v3(
         # routes:
         v3_server.add(
             'api.simplisafe.com', '/v1/ss3/subscriptions/{0}/state/{1}'.format(
-                TEST_SUBSCRIPTION_ID, SystemStates.away.name), 'post',
+                TEST_SUBSCRIPTION_ID, 'away'), 'post',
             aresponses.Response(
                 text=json.dumps(v3_state_away_json), status=200))
         v3_server.add(
             'api.simplisafe.com', '/v1/ss3/subscriptions/{0}/state/{1}'.format(
-                TEST_SUBSCRIPTION_ID, SystemStates.home.name), 'post',
+                TEST_SUBSCRIPTION_ID, 'home'), 'post',
             aresponses.Response(
                 text=json.dumps(v3_state_home_json), status=200))
         v3_server.add(
             'api.simplisafe.com', '/v1/ss3/subscriptions/{0}/state/{1}'.format(
-                TEST_SUBSCRIPTION_ID, SystemStates.off.name), 'post',
+                TEST_SUBSCRIPTION_ID, 'off'), 'post',
             aresponses.Response(
                 text=json.dumps(v3_state_off_json), status=200))
         v3_server.add(
             'api.simplisafe.com', '/v1/ss3/subscriptions/{0}/state/{1}'.format(
-                TEST_SUBSCRIPTION_ID, SystemStates.off.name), 'post',
+                TEST_SUBSCRIPTION_ID, 'off'), 'post',
             aresponses.Response(
                 text=json.dumps(v3_state_off_json), status=200))
 
@@ -214,16 +214,16 @@ async def test_set_states_v3(
             [system] = await get_systems(TEST_EMAIL, TEST_PASSWORD, websession)
 
             await system.set_away()
-            assert system.state == SystemStates.away
+            assert system.state == system.SystemStates.away
 
             await system.set_home()
-            assert system.state == SystemStates.home
+            assert system.state == system.SystemStates.home
 
             await system.set_off()
-            assert system.state == SystemStates.off
+            assert system.state == system.SystemStates.off
 
             await system.set_off()
-            assert system.state == SystemStates.off
+            assert system.state == system.SystemStates.off
 
 
 @pytest.mark.asyncio
