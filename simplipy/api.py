@@ -67,13 +67,13 @@ class API:
             data=payload_data,
             auth=BasicAuth(
                 login=DEFAULT_AUTH_USERNAME, password='', encoding='latin1'))
+        self._access_token = token_resp['access_token']
+        self._access_token_expire = datetime.now() + timedelta(
+            seconds=int(token_resp['expires_in']))
         self.refresh_token = token_resp['refresh_token']
 
         auth_check_resp = await self.request('get', 'api/authCheck')
         self.user_id = auth_check_resp['userId']
-        self._access_token = token_resp['access_token']
-        self._access_token_expire = datetime.now() + timedelta(
-            seconds=int(token_resp['expires_in']))
 
     async def _refresh_access_token(self, refresh_token: str) -> None:
         """Regenerate an access token."""
