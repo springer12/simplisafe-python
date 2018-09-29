@@ -69,7 +69,7 @@ async def test_properties_v3(event_loop, v3_server):
 
             # Ensure that attempting to access the temperature attribute of a
             # non-temperature sensor throws an error:
-            with pytest.raises(ValueError):
+            with pytest.raises(AttributeError):
                 assert siren.temperature == 42
 
 
