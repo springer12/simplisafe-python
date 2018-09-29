@@ -1,9 +1,11 @@
 """Run an example script to quickly test any SimpliSafe system."""
+# pylint: disable=protected-access
+
 import asyncio
 
 from aiohttp import ClientSession
 
-import simplipy
+from simplipy import API
 from simplipy.errors import SimplipyError
 
 
@@ -13,18 +15,19 @@ async def exercise_client(
     print('{0}'.format(email))
     print('========================')
 
-    systems = await simplipy.get_systems(email, password, websession)
+    simplisafe = await API.login_via_credentials(email, password, websession)
+    systems = await simplisafe.get_systems()
     for idx, system in enumerate(systems):
         print()
         print('System #{0}'.format(idx + 1))
         print('------------------------')
         print('Version: {0}'.format(system.version))
-        print('User ID: {0}'.format(system.account.user_id))
-        print('Access Token: {0}'.format(system.account.access_token))
-        print('Refresh Token: {0}'.format(system.account.refresh_token))
+        print('User ID: {0}'.format(system.api.user_id))
+        print('Access Token: {0}'.format(system.api._access_token))
+        print('Refresh Token: {0}'.format(system.api.refresh_token))
 
         events = await system.get_events()
-        print('Number of Events: {0}'.format((len(events['events']))))
+        print('Number of Events: {0}'.format((len(events))))
 
         print()
         print('Sensors:')
@@ -35,15 +38,8 @@ async def exercise_client(
                     sensor_attrs.triggered))
 
         print()
-        print('Refreshing Access Token:')
-        await system.account.refresh_access_token()
-        print('Access Token: {0}'.format(system.account.access_token))
-        print('Refresh Token: {0}'.format(system.account.refresh_token))
-
-        print()
         print('Setting System to "Home":')
         await system.set_home()
-        await asyncio.sleep(5)
 
         print()
         print('Setting System to "Off":')
@@ -57,7 +53,7 @@ async def main() -> None:
     async with ClientSession() as websession:
         try:
             print()
-            await exercise_client('EMAIL', 'PASSWORD', websession)
+            await exercise_client('<EMAIL>', '<PASSWORD>', websession)
         except SimplipyError as err:
             print(err)
 
