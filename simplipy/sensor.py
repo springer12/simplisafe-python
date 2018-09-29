@@ -119,7 +119,7 @@ class SensorV3(Sensor):
     def temperature(self) -> Union[None, int]:
         """Return the sensor's status info."""
         if self.type != SensorTypes.temperature:
-            raise ValueError(
+            raise AttributeError(
                 'Non-temperature sensor cannot have a temperature')
 
         return self.sensor_data['status']['temperature']
