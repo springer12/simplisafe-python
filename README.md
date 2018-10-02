@@ -327,7 +327,7 @@ asyncio.get_event_loop().run_until_complete(main())
 
 # Errors/Exceptions
 
-`simplipy` exposes three useful error types:
+`simplipy` exposes two useful error types:
 
 * `simplipy.errors.SimplipyError`: a base error that all other `simplipy`
   errors inherit from
@@ -336,10 +336,10 @@ asyncio.get_event_loop().run_until_complete(main())
 
 # Refreshing the Access Token
 
-It may be desirable to re-authenticate to the SimpliSafe™ API without using
-a user's email and password again. In that case, it is recommended that you
-save the `refresh_token` property somewhere; when it comes time to
-re-authenticate, simply:
+It may be desirable to re-authenticate against the SimpliSafe™ API at some
+point in the future (and without using a user's email and password). In that
+case, it is recommended that you save the `refresh_token` property somewhere;
+when it comes time to re-authenticate, simply:
 
 ```python
 from simplipy import API
@@ -350,6 +350,7 @@ async def main() -> None:
     async with ClientSession() as websession:
       simplisafe = API.login_via_token("<REFRESH TOKEN>", websession)
       systems = await simplisafe.get_systems()
+      # ...
 
 
 asyncio.get_event_loop().run_until_complete(main())
@@ -358,9 +359,8 @@ asyncio.get_event_loop().run_until_complete(main())
 Although no official documentation exists, basic testing appears to confirm the
 hypothesis that the refresh token is both long-lived and single-use. This means
 that theoretically, it should be possible to use it to create an access token
-long into the future. If `refresh_access_token()` should throw an error,
-however, the system object(s) will need to be recreated via
-`simplipy.API.login_via_credentials`.
+long into the future. If `login_via_token()` should throw an error, however,
+the system object(s) will need to be recreated via `login_via_credentials()`.
 
 # Contributing
 
