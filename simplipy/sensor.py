@@ -3,6 +3,8 @@ import logging
 from enum import Enum
 from typing import Union
 
+from .errors import SimplipyError
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -78,7 +80,12 @@ class SensorV2(Sensor):
     @property
     def triggered(self) -> bool:
         """Return the current sensor state."""
-        return self.sensor_data.get('sensorStatus', 0) != 0
+        if self.type == SensorTypes.entry:
+            return self.sensor_data.get('entryStatus', 'closed') == 'open'
+
+        raise SimplipyError(
+            'Cannot determine triggered state for sensor: {0}'.format(
+                self.name))
 
 
 class SensorV3(Sensor):
