@@ -9,7 +9,7 @@ from typing import List, Type, TypeVar, Union  # noqa
 from aiohttp import BasicAuth, ClientSession
 from aiohttp.client_exceptions import ClientError
 
-from .errors import RequestError
+from .errors import InvalidCredentialsError, RequestError
 from .system import System, SystemV2, SystemV3  # noqa
 
 _LOGGER = logging.getLogger(__name__)
@@ -35,8 +35,8 @@ class API:
         self._access_token_expire = None  # type: Union[None, datetime]
         self._actively_refreshing = False
         self._email = None  # type: Union[None, str]
-        self._websession = websession
         self._refresh_token = ''
+        self._websession = websession
         self.refresh_token_dirty = False
         self.user_id = None
 
@@ -169,6 +169,8 @@ class API:
                 _LOGGER.info(
                     'Endpoint not available in this plan: %s', endpoint)
                 return {}
+            if not self.user_id and '403' in str(err):
+                raise InvalidCredentialsError
 
             raise RequestError(
                 'Error requesting data from {0}: {1}'.format(endpoint, err))
