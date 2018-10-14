@@ -18,10 +18,10 @@ DEFAULT_USER_AGENT = 'SimpliSafe/2105 CFNetwork/902.2 Darwin/17.7.0'
 DEFAULT_AUTH_USERNAME = 'a9c490a5-28c7-48c8-a8c3-1f1d7faa1394.2074.0.0.com.' \
     'simplisafe.mobile'
 
+SYSTEM_MAP = {2: SystemV2, 3: SystemV3}
+
 URL_HOSTNAME = 'api.simplisafe.com'
 URL_BASE = 'https://{0}/v1'.format(URL_HOSTNAME)
-
-SYSTEM_MAP = {2: SystemV2, 3: SystemV3}
 
 ApiType = TypeVar('ApiType', bound='API')
 
