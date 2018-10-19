@@ -1,7 +1,7 @@
 coverage:
 	pipenv run py.test -s --verbose --cov-report term-missing --cov-report xml --cov=simplipy tests
 init:
-	pip install pip==18.0 pipenv
+	pip install pip pipenv
 	pipenv lock
 	pipenv install --dev
 lint:
