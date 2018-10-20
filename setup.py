@@ -17,7 +17,7 @@ from setuptools import find_packages, setup, Command  # type: ignore
 NAME = 'simplisafe-python'
 ALIAS = 'simplipy'
 DESCRIPTION = 'A Python3, async interface to the SimpliSafe API'
-URL = 'https://github.com/w1ll1am23/simplisafe-python'
+URL = 'https://github.com/bachya/simplisafe-python'
 EMAIL = ''
 AUTHOR = 'Aaron Bach'
 REQUIRES_PYTHON = '>=3.5.3'
