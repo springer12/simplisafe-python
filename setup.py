@@ -18,7 +18,7 @@ NAME = 'simplisafe-python'
 ALIAS = 'simplipy'
 DESCRIPTION = 'A Python3, async interface to the SimpliSafe API'
 URL = 'https://github.com/bachya/simplisafe-python'
-EMAIL = ''
+EMAIL = 'bachya1208@gmail.com'
 AUTHOR = 'Aaron Bach'
 REQUIRES_PYTHON = '>=3.5.3'
 VERSION = None
