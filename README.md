@@ -34,7 +34,7 @@ changes:
 If you wish to continue using the previous, synchronous version of
 `simplipy`, make sure to pin version 2.0.2.
 
-# Versions
+# Python Versions
 
 `simplisafe-python` is currently supported on:
 
