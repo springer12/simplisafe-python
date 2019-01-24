@@ -3,7 +3,7 @@ coverage:
 init:
 	pip install pip pipenv
 	pipenv lock
-	pipenv install --dev
+	pipenv install --three --dev
 lint:
 	pipenv run flake8 simplipy
 	pipenv run pydocstyle simplipy
