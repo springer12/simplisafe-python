@@ -4,6 +4,7 @@ import json
 import logging
 from datetime import datetime, timedelta
 
+import aiohttp
 import aresponses
 import pytest
 
@@ -19,22 +20,24 @@ from .fixtures.v3 import *  # noqa
 
 
 @pytest.mark.asyncio
-async def test_bad_request(v2_server):
+async def test_bad_request(event_loop, v2_server):
     """Test that a generic error is thrown when a request fails."""
     async with v2_server:
         v2_server.add(
             'api.simplisafe.com', '/v1/api/fakeEndpoint', 'get',
             aresponses.Response(text='', status=404))
 
-        api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD)
-        [system] = await api.get_systems()
-        with pytest.raises(RequestError):
-            await system.api.request('get', 'api/fakeEndpoint')
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            api = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession)
+            [system] = await api.get_systems()
+            with pytest.raises(RequestError):
+                await system.api.request('get', 'api/fakeEndpoint')
 
 
 @pytest.mark.asyncio
 async def test_expired_token_refresh(
-        api_token_json, auth_check_json, v2_server):
+        api_token_json, auth_check_json, event_loop, v2_server):
     """Test that a refresh token is used correctly."""
     async with v2_server:
         v2_server.add(
@@ -47,10 +50,13 @@ async def test_expired_token_refresh(
             'api.simplisafe.com', '/v1/api/authCheck', 'get',
             aresponses.Response(text=json.dumps(auth_check_json), status=200))
 
-        api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD)
-        [system] = await api.get_systems()
-        system.api._access_token_expire = datetime.now() - timedelta(hours=1)
-        await system.api.request('get', 'api/authCheck')
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            api = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession)
+            [system] = await api.get_systems()
+            system.api._access_token_expire = datetime.now() - timedelta(
+                hours=1)
+            await system.api.request('get', 'api/authCheck')
 
 
 @pytest.mark.asyncio
@@ -63,13 +69,15 @@ async def test_invalid_credentials(
             aresponses.Response(
                 text=json.dumps(invalid_credentials_json), status=403))
 
-        with pytest.raises(InvalidCredentialsError):
-            await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD)
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            with pytest.raises(InvalidCredentialsError):
+                await API.login_via_credentials(
+                    TEST_EMAIL, TEST_PASSWORD, websession)
 
 
 @pytest.mark.asyncio
 async def test_refresh_token_dirtiness(
-        api_token_json, auth_check_json, v2_server):
+        api_token_json, auth_check_json, event_loop, v2_server):
     """Test that the refresh token's dirtiness can be checked."""
     async with v2_server:
         v2_server.add(
@@ -82,20 +90,22 @@ async def test_refresh_token_dirtiness(
             'api.simplisafe.com', '/v1/api/authCheck', 'get',
             aresponses.Response(text=json.dumps(auth_check_json), status=200))
 
-        api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD)
-        [system] = await api.get_systems()
-        system.api._access_token_expire = datetime.now() - timedelta(
-            hours=1)
-        await system.api.request('get', 'api/authCheck')
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            api = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession)
+            [system] = await api.get_systems()
+            system.api._access_token_expire = datetime.now() - timedelta(
+                hours=1)
+            await system.api.request('get', 'api/authCheck')
 
-        assert system.api.refresh_token_dirty
-        assert system.api.refresh_token == TEST_REFRESH_TOKEN
-        assert not system.api.refresh_token_dirty
+            assert system.api.refresh_token_dirty
+            assert system.api.refresh_token == TEST_REFRESH_TOKEN
+            assert not system.api.refresh_token_dirty
 
 
 @pytest.mark.asyncio
 async def test_unavailable_feature_v2(
-        api_token_json, auth_check_json, caplog, v2_server,
+        api_token_json, auth_check_json, caplog, event_loop, v2_server,
         v2_subscriptions_json, unavailable_feature_json):
     """Test that a message is logged with an unavailable feature."""
     caplog.set_level(logging.INFO)
@@ -124,21 +134,23 @@ async def test_unavailable_feature_v2(
             aresponses.Response(
                 text=json.dumps(unavailable_feature_json), status=403))
 
-        api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD)
-        [system] = await api.get_systems()
-        await system.update()
-        await system.set_away()
-        logs = [
-            l for l in
-            ['not available' in e.message for e in caplog.records]
-            if l is not False
-        ]
-        assert len(logs) == 2
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            api = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession)
+            [system] = await api.get_systems()
+            await system.update()
+            await system.set_away()
+            logs = [
+                l for l in
+                ['not available' in e.message for e in caplog.records]
+                if l is not False
+            ]
+            assert len(logs) == 2
 
 
 @pytest.mark.asyncio
 async def test_unavailable_feature_v3(
-        api_token_json, auth_check_json, caplog, v3_server,
+        api_token_json, auth_check_json, caplog, event_loop, v3_server,
         v3_subscriptions_json, unavailable_feature_json):
     """Test that a message is logged with an unavailable feature."""
     caplog.set_level(logging.INFO)
@@ -167,13 +179,15 @@ async def test_unavailable_feature_v3(
             aresponses.Response(
                 text=json.dumps(unavailable_feature_json), status=403))
 
-        api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD)
-        [system] = await api.get_systems()
-        await system.update()
-        await system.set_away()
-        logs = [
-            l for l in
-            ['not available' in e.message for e in caplog.records]
-            if l is not False
-        ]
-        assert len(logs) == 2
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            api = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession)
+            [system] = await api.get_systems()
+            await system.update()
+            await system.set_away()
+            logs = [
+                l for l in
+                ['not available' in e.message for e in caplog.records]
+                if l is not False
+            ]
+            assert len(logs) == 2
