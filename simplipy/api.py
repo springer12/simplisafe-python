@@ -173,6 +173,22 @@ class API:
                 resp.raise_for_status()
                 return await resp.json(content_type=None)
         except ClientError as err:
+            if '401' in str(err):
+                if self._actively_refreshing:
+                    _LOGGER.error('Refresh token was unsuccessful on 401')
+                    raise InvalidCredentialsError
+                if self._refresh_token:
+                    _LOGGER.info('401 detected; attempting refresh token')
+                    self._access_token_expire = datetime.now()
+                    return await self.request(
+                        method,
+                        endpoint,
+                        headers=headers,
+                        params=params,
+                        data=data,
+                        json=json,
+                        **kwargs)
+                raise InvalidCredentialsError
             if '403' in str(err):
                 if self.user_id:
                     _LOGGER.info('Endpoint unavailable in plan: %s', endpoint)
