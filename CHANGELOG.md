@@ -1,5 +1,8 @@
 # Change Log
 
+*NOTE:* this file is here for posterity; going forward, release info can be found here:
+https://github.com/bachya/simplisafe-python/releases
+
 ## 3.0.0
 - Convert library to use `asyncio`
 - Added full test sweet (with 100% coverage)
