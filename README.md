@@ -17,7 +17,7 @@ and more.
 working at any time without warning.
 
 **SPECIAL THANKS:** Original inspiration was obtained from
-https://github.com/greencoder/simplipy; thanks to Scott Newman for all the
+https://github.com/greencoder/easysafe-python; thanks to Scott Newman for all the
 hard work!
 
 # PLEASE READ: Version 3.0.0 and Beyond
