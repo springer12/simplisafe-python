@@ -39,7 +39,7 @@ class System:
 
     @property
     def address(self) -> bool:
-        """Return whether the alarm is going off."""
+        """Return the street address of the system."""
         return self._location_info["street1"]
 
     @property
