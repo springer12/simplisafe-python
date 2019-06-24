@@ -11,6 +11,9 @@ from simplipy.errors import InvalidCredentialsError, SimplipyError
 
 _LOGGER = logging.getLogger()
 
+SIMPLISAFE_EMAIL = "<EMAIL>"
+SIMPLISAFE_PASSWORD = "<PASSWORD>"
+
 
 async def main() -> None:
     """Create the aiohttp session and run the example."""
@@ -19,7 +22,7 @@ async def main() -> None:
 
         try:
             simplisafe = await API.login_via_credentials(
-                "<EMAIL>", "<PASSWORD>", websession
+                SIMPLISAFE_EMAIL, SIMPLISAFE_PASSWORD, websession
             )
             systems = await simplisafe.get_systems()
             for idx, system in enumerate(systems):
