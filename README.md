@@ -20,20 +20,6 @@ working at any time without warning.
 https://github.com/greencoder/easysafe-python; thanks to Scott Newman for all the
 hard work!
 
-# PLEASE READ: Version 3.0.0 and Beyond
-
-Version 3.0.0 of `simplipy` makes several breaking, but necessary
-changes:
-
-* Moves the underlying library from
-  [Requests](http://docs.python-requests.org/en/master/) to
-  [aiohttp](https://aiohttp.readthedocs.io/en/stable/)
-* Changes the entire library to use `asyncio`
-* Makes 3.6 the minimum version of Python required
-
-If you wish to continue using the previous, synchronous version of
-`simplipy`, make sure to pin version 2.0.2.
-
 # Python Versions
 
 `simplisafe-python` is currently supported on:
