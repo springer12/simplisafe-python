@@ -11,6 +11,7 @@ _LOGGER = logging.getLogger(__name__)
 class SensorTypes(Enum):
     """Define sensor types."""
 
+    remote = 0
     keypad = 1
     keychain = 2
     panic_button = 3
