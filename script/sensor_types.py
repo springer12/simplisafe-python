@@ -3,10 +3,10 @@ import asyncio
 import logging
 import sys
 
+sys.path.append(".")
+
 from simplipy import API
 from simplipy.errors import InvalidCredentialsError, SimplipyError
-
-sys.path.append(".")
 
 from aiohttp import ClientSession
 
