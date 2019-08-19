@@ -90,7 +90,9 @@ from simplipy import API
 async def main() -> None:
     """Create the aiohttp session and run."""
     async with ClientSession() as websession:
-        simplisafe = API.login_via_credentials("<EMAIL>", "<PASSWORD>", websession)
+        simplisafe = await API.login_via_credentials(
+            "<EMAIL>", "<PASSWORD>", websession
+        )
 
         # Get a dict of systems with the system ID as the key:
         systems = await simplisafe.get_systems()
@@ -120,7 +122,9 @@ from simplipy import API
 async def main() -> None:
     """Create the aiohttp session and run."""
     async with ClientSession() as websession:
-        simplisafe = API.login_via_credentials("<EMAIL>", "<PASSWORD>", websession)
+        simplisafe = await API.login_via_credentials(
+            "<EMAIL>", "<PASSWORD>", websession
+        )
 
         systems = await simplisafe.get_systems()
         for system_id, system in systems.items():
@@ -196,7 +200,9 @@ from simplipy import API
 async def main() -> None:
     """Create the aiohttp session and run."""
     async with ClientSession() as websession:
-        simplisafe = API.login_via_credentials("<EMAIL>", "<PASSWORD>", websession)
+        simplisafe = await API.login_via_credentials(
+            "<EMAIL>", "<PASSWORD>", websession
+        )
 
         systems = await simplisafe.get_systems()
         for system_id, system in systems:
@@ -299,7 +305,9 @@ from simplipy import API
 async def main() -> None:
     """Create the aiohttp session and run."""
     async with ClientSession() as websession:
-        simplisafe = API.login_via_credentials("<EMAIL>", "<PASSWORD>", websession)
+        simplisafe = await API.login_via_credentials(
+            "<EMAIL>", "<PASSWORD>", websession
+        )
 
         systems = await simplisafe.get_systems()
         for system_id, system in systems:
@@ -345,7 +353,9 @@ from simplipy import API
 async def main() -> None:
     """Create the aiohttp session and run."""
     async with ClientSession() as websession:
-        simplisafe = API.login_via_credentials("<EMAIL>", "<PASSWORD>", websession)
+        simplisafe = await API.login_via_credentials(
+            "<EMAIL>", "<PASSWORD>", websession
+        )
 
         systems = await simplisafe.get_systems()
         for system_id, system in systems:
@@ -371,7 +381,9 @@ from simplipy import API
 async def main() -> None:
     """Create the aiohttp session and run."""
     async with ClientSession() as websession:
-        simplisafe = API.login_via_credentials("<EMAIL>", "<PASSWORD>", websession)
+        simplisafe = await API.login_via_credentials(
+            "<EMAIL>", "<PASSWORD>", websession
+        )
 
         systems = await simplisafe.get_systems()
         for system_id, system in systems:
@@ -404,7 +416,9 @@ from simplipy import API
 async def main() -> None:
     """Create the aiohttp session and run."""
     async with ClientSession() as websession:
-        simplisafe = API.login_via_credentials("<EMAIL>", "<PASSWORD>", websession)
+        simplisafe = await API.login_via_credentials(
+            "<EMAIL>", "<PASSWORD>", websession
+        )
 
         systems = await simplisafe.get_systems()
         for system_id, system in systems:
@@ -452,7 +466,9 @@ from simplipy import API
 async def main() -> None:
     """Create the aiohttp session and run."""
     async with ClientSession() as websession:
-        simplisafe = API.login_via_credentials("<EMAIL>", "<PASSWORD>", websession)
+        simplisafe = await API.login_via_credentials(
+            "<EMAIL>", "<PASSWORD>", websession
+        )
 
         systems = await simplisafe.get_systems()
         for system_id, system in systems:
@@ -499,7 +515,9 @@ from simplipy import API
 async def main() -> None:
     """Create the aiohttp session and run."""
     async with ClientSession() as websession:
-        simplisafe = API.login_via_token("<REFRESH TOKEN>", websession)
+        simplisafe = await API.login_via_token(
+            "<REFRESH TOKEN>", websession
+        )
 
         systems = await simplisafe.get_systems()
         for system in systems:
@@ -529,7 +547,7 @@ from simplipy import API
 async def main() -> None:
 """Create the aiohttp session and run."""
     async with ClientSession() as websession:
-        simplisafe = API.login_via_token("<REFRESH TOKEN>", websession)
+        simplisafe = await API.login_via_token("<REFRESH TOKEN>", websession)
         systems = await simplisafe.get_systems()
         # ...
 
