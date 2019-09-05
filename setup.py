@@ -59,7 +59,7 @@ class UploadCommand(Command):
 
     @staticmethod
     def status(string):
-        """Prints things in bold."""
+        """Print things in bold."""
         print(f"\033[1m{string}\033[0m")
 
     def initialize_options(self):
