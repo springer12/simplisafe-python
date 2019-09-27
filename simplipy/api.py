@@ -142,10 +142,10 @@ class API:  # pylint: disable=too-many-instance-attributes
         method: str,
         endpoint: str,
         *,
-        headers: dict = None,
-        params: dict = None,
-        data: dict = None,
-        json: dict = None,
+        headers: Optional[dict] = None,
+        params: Optional[dict] = None,
+        data: Optional[dict] = None,
+        json: Optional[dict] = None,
         **kwargs,
     ) -> dict:
         """Make a request."""
