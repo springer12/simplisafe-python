@@ -157,8 +157,6 @@ class API:  # pylint: disable=too-many-instance-attributes
             self._actively_refreshing = True
             await self._refresh_access_token(self._refresh_token)
 
-        url: str = f"{URL_BASE}/{endpoint}"
-
         if not headers:
             headers = {}
         if not kwargs.get("auth") and self._access_token:
@@ -168,7 +166,7 @@ class API:  # pylint: disable=too-many-instance-attributes
         try:
             async with self._websession.request(
                 method,
-                url,
+                f"{URL_BASE}/{endpoint}",
                 headers=headers,
                 params=params,
                 data=data,
