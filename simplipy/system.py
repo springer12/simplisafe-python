@@ -43,7 +43,7 @@ class System:
     def __init__(self, api: "API", location_info: dict) -> None:
         """Initialize."""
         self._location_info: dict = location_info
-        self.api: API = api
+        self.api: "API" = api
         self.sensors: Dict[str, Sensor] = {}
 
         self._state: SystemStates = self._coerce_state_from_string(
