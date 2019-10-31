@@ -1,5 +1,4 @@
 """Define a SimpliSafe account."""
-# pylint: disable=protected-access
 import logging
 from datetime import datetime, timedelta
 from typing import Dict, Optional, Type, TypeVar
@@ -9,7 +8,7 @@ from aiohttp import BasicAuth, ClientSession
 from aiohttp.client_exceptions import ClientError
 
 from .errors import InvalidCredentialsError, RequestError
-from .system import System, SystemV2, SystemV3  # noqa
+from .system import System, SystemV2, SystemV3
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -32,10 +31,10 @@ class API:  # pylint: disable=too-many-instance-attributes
         self._access_token: str = ""
         self._access_token_expire: Optional[datetime] = None
         self._actively_refreshing: bool = False
-        self._email: Optional[str] = None
         self._refresh_token: str = ""
         self._uuid: UUID = uuid4()
         self._websession: ClientSession = websession
+        self.email: Optional[str] = None
         self.refresh_token_dirty: bool = False
         self.user_id: Optional[str] = None
 
@@ -62,9 +61,9 @@ class API:  # pylint: disable=too-many-instance-attributes
     ) -> ApiType:
         """Create an API object from a email address and password."""
         klass = cls(websession)
-        klass._email = email
+        klass.email = email
 
-        await klass._authenticate(
+        await klass.authenticate(
             {"grant_type": "password", "username": email, "password": password}
         )
 
@@ -76,10 +75,10 @@ class API:  # pylint: disable=too-many-instance-attributes
     ) -> ApiType:
         """Create an API object from a refresh token."""
         klass = cls(websession)
-        await klass._refresh_access_token(refresh_token)
+        await klass.refresh_access_token(refresh_token)
         return klass
 
-    async def _authenticate(self, payload_data: dict) -> None:
+    async def authenticate(self, payload_data: dict) -> None:
         """Request token data and parse it."""
         token_resp: dict = await self.request(
             "post",
@@ -100,18 +99,6 @@ class API:  # pylint: disable=too-many-instance-attributes
 
         auth_check_resp: dict = await self.request("get", "api/authCheck")
         self.user_id = auth_check_resp["userId"]
-
-    async def _refresh_access_token(self, refresh_token: str) -> None:
-        """Regenerate an access token."""
-        await self._authenticate(
-            {
-                "grant_type": "refresh_token",
-                "username": self._email,
-                "refresh_token": refresh_token,
-            }
-        )
-
-        self._actively_refreshing = False
 
     async def get_systems(self) -> Dict[str, System]:
         """Get systems associated to this account."""
@@ -137,6 +124,18 @@ class API:  # pylint: disable=too-many-instance-attributes
 
         return subscription_resp
 
+    async def refresh_access_token(self, refresh_token: str) -> None:
+        """Regenerate an access token."""
+        await self.authenticate(
+            {
+                "grant_type": "refresh_token",
+                "username": self.email,
+                "refresh_token": refresh_token,
+            }
+        )
+
+        self._actively_refreshing = False
+
     async def request(
         self,
         method: str,
@@ -155,7 +154,7 @@ class API:  # pylint: disable=too-many-instance-attributes
             and not self._actively_refreshing
         ):
             self._actively_refreshing = True
-            await self._refresh_access_token(self._refresh_token)
+            await self.refresh_access_token(self._refresh_token)
 
         if not headers:
             headers = {}
