@@ -77,12 +77,12 @@ class SensorV3(Entity):
     def triggered(self) -> bool:
         """Return the sensor's status info."""
         if self.type in (
-            EntityTypes.motion,
+            EntityTypes.carbon_monoxide,
             EntityTypes.entry,
             EntityTypes.glass_break,
-            EntityTypes.carbon_monoxide,
-            EntityTypes.smoke,
             EntityTypes.leak,
+            EntityTypes.motion,
+            EntityTypes.smoke,
             EntityTypes.temperature,
         ):
             return self.entity_data["status"].get("triggered", False)
