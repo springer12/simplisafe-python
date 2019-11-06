@@ -5,7 +5,7 @@ from typing import Optional
 from .entity import Entity, EntityTypes
 from .errors import SimplipyError
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: logging.Logger = logging.getLogger(__name__)
 
 
 class SensorV2(Entity):

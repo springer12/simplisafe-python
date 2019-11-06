@@ -10,7 +10,7 @@ from aiohttp.client_exceptions import ClientError
 from .errors import InvalidCredentialsError, RequestError
 from .system import System, SystemV2, SystemV3
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: logging.Logger = logging.getLogger(__name__)
 
 DEFAULT_USER_AGENT: str = "SimpliSafe/2105 CFNetwork/902.2 Darwin/17.7.0"
 DEFAULT_AUTH_USERNAME: str = "{0}.2074.0.0.com.simplisafe.mobile"

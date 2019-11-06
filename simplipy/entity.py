@@ -2,7 +2,7 @@
 from enum import Enum
 import logging
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: logging.Logger = logging.getLogger(__name__)
 
 
 class EntityTypes(Enum):
@@ -29,7 +29,7 @@ class Entity:
 
     def __init__(self, entity_type: EntityTypes, entity_data: dict) -> None:
         """Initialize."""
-        self._type = entity_type
+        self._type: EntityTypes = entity_type
         self.entity_data: dict = entity_data
 
     @property
