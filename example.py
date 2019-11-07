@@ -1,6 +1,5 @@
 """Run an example script to quickly test any SimpliSafe system."""
 # pylint: disable=protected-access
-
 import asyncio
 import logging
 
@@ -46,6 +45,8 @@ async def main() -> None:
 
                 _LOGGER.info('Setting System to "Home":')
                 await system.set_home()
+
+                await asyncio.sleep(3)
 
                 _LOGGER.info('Setting System to "Off":')
                 await system.set_off()
