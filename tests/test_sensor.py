@@ -1,6 +1,4 @@
 """Define tests for the Sensor objects."""
-# pylint: disable=protected-access,redefined-outer-name
-
 import aiohttp
 import pytest
 
