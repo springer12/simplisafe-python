@@ -280,7 +280,7 @@ class System:
         await self._send_updated_pins(latest_pins)
 
     async def update(self, refresh_location: bool = True, cached: bool = True) -> None:
-        """Update to the latest data (including sensors)."""
+        """Update to the latest data (including entities)."""
         tasks: Dict[str, Coroutine] = {
             "sensors": self._update_sensors(cached),
             "settings": self._update_settings(cached),
