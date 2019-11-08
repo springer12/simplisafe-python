@@ -5,7 +5,6 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .api import API  # pylint: disable=cyclic-import
-    from .system import System  # pylint: disable=cyclic-import
 
 _LOGGER: logging.Logger = logging.getLogger(__name__)
 
@@ -33,11 +32,11 @@ class Entity:
     """Define a base SimpliSafe entity."""
 
     def __init__(
-        self, api: "API", system: "System", entity_type: EntityTypes, entity_data: dict
+        self, api: "API", system_id: int, entity_type: EntityTypes, entity_data: dict
     ) -> None:
         """Initialize."""
         self._api: "API" = api
-        self._system: "System" = system
+        self._system_id: int = system_id
         self._type: EntityTypes = entity_type
         self.entity_data: dict = entity_data
 
