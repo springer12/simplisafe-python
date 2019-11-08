@@ -186,7 +186,7 @@ class System:
             else:
                 sensor_klass = get_sensor_class(self.version)
                 self.sensors[sensor_data["serial"]] = sensor_klass(
-                    sensor_type, sensor_data
+                    self.api, self, sensor_type, sensor_data
                 )
 
     async def _update_settings(self, cached: bool = True) -> None:
