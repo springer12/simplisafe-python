@@ -1,4 +1,4 @@
-"""Run an example script to quickly test any SimpliSafe system."""
+"""Run an example script to output system properties and sensors."""
 # pylint: disable=protected-access
 import asyncio
 import logging
@@ -34,22 +34,14 @@ async def main() -> None:
                 events = await system.get_events()
                 _LOGGER.info("Number of Events: %s", len(events))
 
-                for serial, sensor_attrs in system.sensors.items():
+                for serial, sensor in system.sensors.items():
                     _LOGGER.info(
                         "Sensor %s: (name: %s, type: %s, triggered: %s)",
                         serial,
-                        sensor_attrs.name,
-                        sensor_attrs.type,
-                        sensor_attrs.triggered,
+                        sensor.name,
+                        sensor.type,
+                        sensor.triggered,
                     )
-
-                _LOGGER.info('Setting System to "Home":')
-                await system.set_home()
-
-                await asyncio.sleep(3)
-
-                _LOGGER.info('Setting System to "Off":')
-                await system.set_off()
         except InvalidCredentialsError:
             _LOGGER.error("Invalid credentials")
         except SimplipyError as err:
