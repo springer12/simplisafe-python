@@ -4,8 +4,8 @@ import logging
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .api import API
-    from .system import System
+    from .api import API  # pylint: disable=cyclic-import
+    from .system import System  # pylint: disable=cyclic-import
 
 _LOGGER: logging.Logger = logging.getLogger(__name__)
 
