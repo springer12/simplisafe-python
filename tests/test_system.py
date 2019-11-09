@@ -6,7 +6,7 @@ import aresponses
 import pytest
 
 from simplipy import API
-from simplipy.errors import PinError
+from simplipy.errors import InvalidCredentialsError, PinError
 from simplipy.system import System, SystemStates
 
 from .const import (
@@ -247,6 +247,35 @@ async def test_get_systems_v3(
             assert system.system_id == TEST_SYSTEM_ID
             assert system.api._access_token == TEST_ACCESS_TOKEN
             assert len(system.sensors) == 21
+
+
+@pytest.mark.asyncio
+async def test_no_state_change_on_failure(aresponses, event_loop, v3_server):
+    """Test that the system doesn't change state on an error."""
+    async with v3_server:
+        v3_server.add(
+            "api.simplisafe.com",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/state/away",
+            "post",
+            aresponses.Response(text=None, status=401),
+        )
+        v3_server.add(
+            "api.simplisafe.com",
+            "/v1/api/token",
+            "post",
+            aresponses.Response(text="", status=401),
+        )
+
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
+            systems = await api.get_systems()
+            system = systems[TEST_SYSTEM_ID]
+
+            assert system.state == SystemStates.off
+
+            with pytest.raises(InvalidCredentialsError):
+                await system.set_away()
+            assert system.state == SystemStates.off
 
 
 @pytest.mark.asyncio
