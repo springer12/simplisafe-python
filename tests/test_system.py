@@ -406,8 +406,9 @@ async def test_properties(event_loop, v2_server):
             systems = await api.get_systems()
             system = systems[TEST_SYSTEM_ID]
 
-            assert system.address == TEST_ADDRESS
             assert not system.alarm_going_off
+            assert system.address == TEST_ADDRESS
+            assert system.connection_type == "cell"
             assert system.serial == TEST_SYSTEM_SERIAL_NO
             assert system.state == SystemStates.off
             assert system.system_id == TEST_SYSTEM_ID
@@ -427,12 +428,15 @@ async def test_properties_v3(event_loop, v3_server):
             assert system.alarm_duration == 240
             assert system.alarm_volume == 3
             assert system.battery_backup_power_level == 5293
+            assert system.connection_type == "wifi"
             assert system.entry_delay_away == 30
             assert system.entry_delay_home == 30
             assert system.exit_delay_away == 60
             assert system.exit_delay_home == 0
             assert system.gsm_strength == -73
             assert system.light is True
+            assert system.offline is False
+            assert system.power_outage is False
             assert system.rf_jamming is False
             assert system.voice_prompt_volume == 2
             assert system.wall_power_level == 5933
