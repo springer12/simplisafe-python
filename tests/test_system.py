@@ -369,39 +369,6 @@ async def test_set_duplicate_pin(event_loop, v3_server, v3_settings_json):
 
 
 @pytest.mark.asyncio
-async def test_set_max_user_pins(
-    event_loop, v3_server, v3_settings_json, v3_settings_full_pins_json
-):
-    """Test throwing an error when setting too many user PINs."""
-    async with v3_server:
-        v3_server.add(
-            "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
-            "get",
-            aresponses.Response(
-                text=json.dumps(v3_settings_full_pins_json), status=200
-            ),
-        )
-        v3_server.add(
-            "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
-            "post",
-            aresponses.Response(text=json.dumps(v3_settings_json), status=200),
-        )
-
-        async with aiohttp.ClientSession(loop=event_loop) as websession:
-            with pytest.raises(PinError) as err:
-                api = await API.login_via_credentials(
-                    TEST_EMAIL, TEST_PASSWORD, websession
-                )
-                systems = await api.get_systems()
-                system = systems[TEST_SYSTEM_ID]
-
-                await system.set_pin("whatever", "8121")
-                assert "Refusing to create more than" in str(err)
-
-
-@pytest.mark.asyncio
 async def test_properties(event_loop, v2_server):
     """Test that base system properties are created properly."""
     async with v2_server:
@@ -442,6 +409,39 @@ async def test_properties_v3(event_loop, v3_server):
             assert system.wall_power_level == 5933
             assert system.wifi_ssid == "MY_WIFI"
             assert system.wifi_strength == -49
+
+
+@pytest.mark.asyncio
+async def test_set_max_user_pins(
+    event_loop, v3_server, v3_settings_json, v3_settings_full_pins_json
+):
+    """Test throwing an error when setting too many user PINs."""
+    async with v3_server:
+        v3_server.add(
+            "api.simplisafe.com",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            "get",
+            aresponses.Response(
+                text=json.dumps(v3_settings_full_pins_json), status=200
+            ),
+        )
+        v3_server.add(
+            "api.simplisafe.com",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            "post",
+            aresponses.Response(text=json.dumps(v3_settings_json), status=200),
+        )
+
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            with pytest.raises(PinError) as err:
+                api = await API.login_via_credentials(
+                    TEST_EMAIL, TEST_PASSWORD, websession
+                )
+                systems = await api.get_systems()
+                system = systems[TEST_SYSTEM_ID]
+
+                await system.set_pin("whatever", "8121")
+                assert "Refusing to create more than" in str(err)
 
 
 @pytest.mark.asyncio
