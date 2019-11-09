@@ -6,6 +6,7 @@ import pytest
 
 from ..const import (
     TEST_ACCOUNT_ID,
+    TEST_LOCK_ID,
     TEST_SUBSCRIPTION_ID,
     TEST_SYSTEM_ID,
     TEST_SYSTEM_SERIAL_NO,
@@ -56,6 +57,18 @@ def v3_server(
     )
 
     return server
+
+
+@pytest.fixture()
+def v3_lock_lock_response_json():
+    """Return a /v1/doorlock/<SUBSCRIPTION_ID>/<LOCK_ID>/state response from locking."""
+    return {"state": "lock"}
+
+
+@pytest.fixture()
+def v3_lock_unlock_response_json():
+    """Return a /v1/doorlock/<SUBSCRIPTION_ID>/<LOCK_ID>/state response from unlocking."""
+    return {"state": "unlock"}
 
 
 @pytest.fixture()
@@ -403,6 +416,50 @@ def v3_sensors_json():
                     "off": 0,
                 },
                 "status": {},
+                "flags": {
+                    "swingerShutdown": False,
+                    "lowBattery": False,
+                    "offline": False,
+                },
+            },
+            {
+                "serial": TEST_LOCK_ID,
+                "type": 16,
+                "status": {
+                    "pinPadState": 0,
+                    "lockState": 1,
+                    "pinPadOffline": False,
+                    "pinPadLowBattery": False,
+                    "lockDisabled": False,
+                    "lockLowBattery": False,
+                    "calibrationErrDelta": 0,
+                    "calibrationErrZero": 0,
+                    "lockJamState": 0,
+                },
+                "name": "Front Door",
+                "deviceGroupID": 1,
+                "firmwareVersion": "1.0.0",
+                "bootVersion": "1.0.0",
+                "setting": {
+                    "autoLock": 3,
+                    "away": 1,
+                    "home": 1,
+                    "awayToOff": 0,
+                    "homeToOff": 1,
+                },
+                "flags": {
+                    "swingerShutdown": False,
+                    "lowBattery": False,
+                    "offline": False,
+                },
+            },
+            {
+                "serial": "654",
+                "type": 253,
+                "status": {},
+                "name": "Front Door",
+                "deviceGroupID": 1,
+                "setting": {},
                 "flags": {
                     "swingerShutdown": False,
                     "lowBattery": False,
