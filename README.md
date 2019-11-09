@@ -308,7 +308,7 @@ async def main() -> None:
 
         systems = await simplisafe.get_systems()
         for system_id, system in systems.items():
-            for serial, sensor_attrs in system.sensors.items():
+            for serial, sensor in system.sensors.items():
                 # Return the sensor's name:
                 sensor.name
                 # >>> Kitchen Window
@@ -356,7 +356,7 @@ async def main() -> None:
 
         systems = await simplisafe.get_systems()
         for system_id, system in systems.items():
-            for serial, sensor_attrs in system.sensors.items():
+            for serial, sensor in system.sensors.items():
                 # Return the sensor's data as a currently non-understood integer:
                 sensor.data
                 # >>> 0
