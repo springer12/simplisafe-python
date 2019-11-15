@@ -4,8 +4,6 @@ import logging
 
 from aiohttp import ClientSession
 
-sys.path.append(".")
-
 from simplipy import API
 from simplipy.errors import SimplipyError
 

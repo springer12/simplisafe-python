@@ -1,15 +1,11 @@
 """Get a list of all sensors in a system."""
 import asyncio
 import logging
-import sys
-
-sys.path.append(".")
-
-from simplipy import API
-from simplipy.errors import InvalidCredentialsError, SimplipyError
 
 from aiohttp import ClientSession
 
+from simplipy import API
+from simplipy.errors import SimplipyError
 
 _LOGGER = logging.getLogger()
 
@@ -31,8 +27,6 @@ async def main() -> None:
                 events = await system.get_events()
                 for event in events:
                     _LOGGER.info("Event: %s", event)
-        except InvalidCredentialsError:
-            _LOGGER.error("Invalid credentials")
         except SimplipyError as err:
             _LOGGER.error(err)
 
