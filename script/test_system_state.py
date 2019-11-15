@@ -4,8 +4,10 @@ import logging
 
 from aiohttp import ClientSession
 
+sys.path.append(".")
+
 from simplipy import API
-from simplipy.errors import InvalidCredentialsError, SimplipyError
+from simplipy.errors import SimplipyError
 
 _LOGGER = logging.getLogger()
 

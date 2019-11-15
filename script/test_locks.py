@@ -6,7 +6,7 @@ from aiohttp import ClientSession
 
 from simplipy import API
 from simplipy.lock import LockStates
-from simplipy.errors import InvalidCredentialsError, SimplipyError
+from simplipy.errors import SimplipyError
 
 _LOGGER = logging.getLogger()
 
