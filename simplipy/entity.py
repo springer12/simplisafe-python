@@ -4,7 +4,7 @@ import logging
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .api import API  # pylint: disable=cyclic-import
+    from simplipy.api import API
 
 _LOGGER: logging.Logger = logging.getLogger(__name__)
 

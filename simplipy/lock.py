@@ -2,7 +2,7 @@
 from enum import Enum
 import logging
 
-from .entity import EntityV3
+from simplipy.entity import EntityV3
 
 _LOGGER: logging.Logger = logging.getLogger(__name__)
 
