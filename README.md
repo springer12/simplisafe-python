@@ -13,7 +13,9 @@
 get data on their system (including available sensors), set the system state,
 and more.
 
-Complete documentation: https://simplisafe-python.readthedocs.io
+# Documentation
+
+You can find complete documentation here: https://simplisafe-python.readthedocs.io
 
 # Contributing
 
