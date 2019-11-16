@@ -13,8 +13,8 @@ simplisafe-python
 .. image:: https://codecov.io/gh/bachya/simplisafe-python/branch/master/graph/badge.svg
 .. image:: https://api.codeclimate.com/v1/badges/f46d8b1dcfde6a2f683d/maintainability
 
-`simplisafe-python` (hereafter referred to as `simplipy`) is a Python3,
-`asyncio`-driven interface to the unofficial SimpliSafe™ API. With it, users can
+``simplisafe-python`` (hereafter referred to as ``simplipy``) is a Python3,
+``asyncio``-driven interface to the unofficial SimpliSafe™ API. With it, users can
 get data on their system (including available sensors), set the system state,
 and more.
 
