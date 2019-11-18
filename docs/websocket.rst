@@ -1,7 +1,8 @@
 Websocket
 =========
 
-**NOTE:** this feature is ``experimental`` and should be used with caution.
+**NOTE:** this feature is ``experimental`` and may or may not work properly for the time
+being.
 
 ``simplipy`` provides a websocket that allows for near-real-time detection of certain
 events from a user's SimpliSafe™ system. This websocket can be accessed via the
