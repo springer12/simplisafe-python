@@ -26,12 +26,12 @@ async def main() -> None:
             for system_id, system in systems.items():
                 _LOGGER.info("System ID: %s", system_id)
                 _LOGGER.info("Version: %s", system.version)
-                _LOGGER.info("User ID: %s", system.api.user_id)
+                _LOGGER.info("User ID: %s", simplisafe.user_id)
                 _LOGGER.info(
                     "Access Token: %s",
-                    system.api._access_token,  # pylint: disable=protected-access
+                    simplisafe._access_token,  # pylint: disable=protected-access
                 )
-                _LOGGER.info("Refresh Token: %s", system.api.refresh_token)
+                _LOGGER.info("Refresh Token: %s", simplisafe.refresh_token)
 
                 events = await system.get_events()
                 _LOGGER.info("Number of Events: %s", len(events))

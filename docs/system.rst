@@ -18,7 +18,7 @@ To get all SimpliSafe™ systems associated with an account:
     import asyncio
 
     from aiohttp import ClientSession
-    from simplipyt import API
+    from simplipy import API
 
 
     async def main() -> None:
@@ -41,11 +41,6 @@ Core Properties
 All ``System`` objects come with a standard set of properties
 
 .. code:: python
-
-    # Return a reference to a SimpliSafe™ API object
-    # (detailed later):
-    system.api
-    # >>> <simplipy.api.API object>
 
     # Return the street address of the system:
     system.address

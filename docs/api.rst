@@ -72,6 +72,12 @@ API Reference
 .. autoclass:: simplipy.sensor.v3.SensorV3
    :members:
 
+``System`` class
+-----------------------
+
+.. autoclass:: simplipy.system.System
+   :members:
+
 ``SystemV2`` class
 -----------------------
 
