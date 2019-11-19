@@ -23,8 +23,10 @@ async def test_properties_base(v2_server):
     """Test that base sensor properties are created properly."""
     async with v2_server:
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            systems = await api.get_systems()
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            systems = await simplisafe.get_systems()
             system = systems[TEST_SYSTEM_ID]
 
             sensor = system.sensors["195"]
@@ -38,8 +40,10 @@ async def test_properties_v2(v2_server):
     """Test that v2 sensor properties are created properly."""
     async with v2_server:
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            systems = await api.get_systems()
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            systems = await simplisafe.get_systems()
             system = systems[TEST_SYSTEM_ID]
 
             keypad = system.sensors["195"]
@@ -67,8 +71,10 @@ async def test_properties_v3(v3_server):
     """Test that v3 sensor properties are created properly."""
     async with v3_server:
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            systems = await api.get_systems()
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            systems = await simplisafe.get_systems()
             system = systems[TEST_SYSTEM_ID]
 
             entry_sensor = system.sensors["825"]
@@ -96,6 +102,8 @@ async def test_unknown_sensor_type(caplog, v2_server):
     """Test that a message is logged when unknown sensors types are found."""
     async with v2_server:
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            _ = await api.get_systems()  # noqa
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            _ = await simplisafe.get_systems()  # noqa
             assert any("Unknown" in e.message for e in caplog.records)

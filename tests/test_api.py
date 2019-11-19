@@ -74,11 +74,11 @@ async def test_401_refresh_token_failure(aresponses, v2_server, v2_subscriptions
 
         async with aiohttp.ClientSession() as websession:
             with pytest.raises(InvalidCredentialsError):
-                api = await API.login_via_credentials(
+                simplisafe = await API.login_via_credentials(
                     TEST_EMAIL, TEST_PASSWORD, websession
                 )
 
-                systems = await api.get_systems()
+                systems = await simplisafe.get_systems()
                 system = systems[TEST_SYSTEM_ID]
                 await system.update()
 
@@ -121,14 +121,16 @@ async def test_401_refresh_token_success(
         )
 
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            systems = await api.get_systems()
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            systems = await simplisafe.get_systems()
             system = systems[TEST_SYSTEM_ID]
             await system.update()
 
-            assert api.refresh_token_dirty
-            assert api.refresh_token == TEST_REFRESH_TOKEN
-            assert not api.refresh_token_dirty
+            assert simplisafe.refresh_token_dirty
+            assert simplisafe.refresh_token == TEST_REFRESH_TOKEN
+            assert not simplisafe.refresh_token_dirty
 
 
 @pytest.mark.asyncio
@@ -143,9 +145,11 @@ async def test_bad_request(v2_server):
         )
 
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
             with pytest.raises(RequestError):
-                await api._request("get", "api/fakeEndpoint")
+                await simplisafe._request("get", "api/fakeEndpoint")
 
 
 @pytest.mark.asyncio
@@ -172,9 +176,11 @@ async def test_expired_token_refresh(api_token_json, auth_check_json, v2_server)
         )
 
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            api._access_token_expire = datetime.now() - timedelta(hours=1)
-            await api._request("get", "api/authCheck")
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            simplisafe._access_token_expire = datetime.now() - timedelta(hours=1)
+            await simplisafe._request("get", "api/authCheck")
 
 
 @pytest.mark.asyncio
@@ -217,13 +223,15 @@ async def test_refresh_token_dirtiness(api_token_json, auth_check_json, v2_serve
         )
 
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            api._access_token_expire = datetime.now() - timedelta(hours=1)
-            await api._request("get", "api/authCheck")
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            simplisafe._access_token_expire = datetime.now() - timedelta(hours=1)
+            await simplisafe._request("get", "api/authCheck")
 
-            assert api.refresh_token_dirty
-            assert api.refresh_token == TEST_REFRESH_TOKEN
-            assert not api.refresh_token_dirty
+            assert simplisafe.refresh_token_dirty
+            assert simplisafe.refresh_token == TEST_REFRESH_TOKEN
+            assert not simplisafe.refresh_token_dirty
 
 
 @pytest.mark.asyncio
@@ -271,8 +279,10 @@ async def test_unavailable_feature_v2(  # pylint: disable=too-many-arguments
         )
 
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            systems = await api.get_systems()
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            systems = await simplisafe.get_systems()
             system = systems[TEST_SYSTEM_ID]
             await system.update()
             await system.set_away()
@@ -337,8 +347,10 @@ async def test_unavailable_feature_v3(  # pylint: disable=too-many-arguments
         )
 
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            systems = await api.get_systems()
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            systems = await simplisafe.get_systems()
             system = systems[TEST_SYSTEM_ID]
             await system.update()
             await system.set_away()

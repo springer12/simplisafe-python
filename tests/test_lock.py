@@ -58,8 +58,10 @@ async def test_lock_unlock(
         )
 
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            systems = await api.get_systems()
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            systems = await simplisafe.get_systems()
             system = systems[TEST_SYSTEM_ID]
 
             lock = system.locks[TEST_LOCK_ID]
@@ -77,8 +79,10 @@ async def test_jammed(v3_server):
     """Test that a jammed lock shows the correct state."""
     async with v3_server:
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            systems = await api.get_systems()
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            systems = await simplisafe.get_systems()
             system = systems[TEST_SYSTEM_ID]
 
             lock = system.locks[TEST_LOCK_ID_2]
@@ -103,8 +107,10 @@ async def test_no_state_change_on_failure(aresponses, v3_server):
         )
 
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            systems = await api.get_systems()
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            systems = await simplisafe.get_systems()
             system = systems[TEST_SYSTEM_ID]
 
             lock = system.locks[TEST_LOCK_ID]
@@ -120,8 +126,10 @@ async def test_properties(v3_server):
     """Test that lock properties are created properly."""
     async with v3_server:
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            systems = await api.get_systems()
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            systems = await simplisafe.get_systems()
             system = systems[TEST_SYSTEM_ID]
 
             lock = system.locks[TEST_LOCK_ID]
@@ -140,8 +148,10 @@ async def test_unknown_state(caplog, v3_server):
     """Test handling a generic error during update."""
     async with v3_server:
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            systems = await api.get_systems()
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            systems = await simplisafe.get_systems()
             system = systems[TEST_SYSTEM_ID]
             lock = system.locks[TEST_LOCK_ID_3]
 
@@ -192,8 +202,10 @@ async def test_update(  # pylint: disable=too-many-arguments
         )
 
         async with aiohttp.ClientSession() as websession:
-            api = await API.login_via_credentials(TEST_EMAIL, TEST_PASSWORD, websession)
-            systems = await api.get_systems()
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            systems = await simplisafe.get_systems()
             system = systems[TEST_SYSTEM_ID]
 
             lock = system.locks[TEST_LOCK_ID]
