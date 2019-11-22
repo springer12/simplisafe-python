@@ -243,7 +243,7 @@ class System:
         raise NotImplementedError()
 
     async def _get_pins(self, cached: bool = True) -> None:
-        """Update system settings."""
+        """Get existing PINs."""
         pass
 
     async def _get_system_info(self) -> None:

@@ -155,7 +155,7 @@ class SystemV3(System):
         return sensor_resp["sensors"]
 
     async def _get_pins(self, cached: bool = True) -> None:
-        """Update system settings."""
+        """Get existing PINs."""
         settings_resp: dict = await self._request(
             "get",
             f"ss3/subscriptions/{self.system_id}/settings/pins",
