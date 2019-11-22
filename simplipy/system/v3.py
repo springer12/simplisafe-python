@@ -158,7 +158,7 @@ class SystemV3(System):
         """Get all system settings."""
         settings_resp: dict = await self._request(
             "get",
-            f"ss3/subscriptions/{self.system_id}/settings/pins",
+            f"ss3/subscriptions/{self.system_id}/settings/normal",
             params={"forceUpdate": str(not cached).lower()},
         )
 

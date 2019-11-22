@@ -129,7 +129,7 @@ async def test_get_pins_v3(v3_server, v3_settings_json):
     async with v3_server:
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(text=json.dumps(v3_settings_json), status=200),
         )
@@ -247,7 +247,7 @@ async def test_get_systems_v3(  # pylint: disable=too-many-arguments
         )
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(text=json.dumps(v3_settings_json), status=200),
         )
@@ -315,7 +315,7 @@ async def test_remove_nonexistent_pin_v3(v3_server, v3_settings_json):
     async with v3_server:
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(text=json.dumps(v3_settings_json), status=200),
         )
@@ -338,13 +338,13 @@ async def test_remove_pin_v3(v3_server, v3_settings_json, v3_settings_deleted_pi
     async with v3_server:
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(text=json.dumps(v3_settings_json), status=200),
         )
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(text=json.dumps(v3_settings_json), status=200),
         )
@@ -358,7 +358,7 @@ async def test_remove_pin_v3(v3_server, v3_settings_json, v3_settings_deleted_pi
         )
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(
                 text=json.dumps(v3_settings_deleted_pin_json), status=200
@@ -386,7 +386,7 @@ async def test_remove_reserved_pin_v3(v3_server, v3_settings_json):
     async with v3_server:
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(text=json.dumps(v3_settings_json), status=200),
         )
@@ -409,7 +409,7 @@ async def test_set_duplicate_pin(v3_server, v3_settings_json):
     async with v3_server:
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(text=json.dumps(v3_settings_json), status=200),
         )
@@ -491,7 +491,7 @@ async def test_set_max_user_pins(
     async with v3_server:
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(
                 text=json.dumps(v3_settings_full_pins_json), status=200
@@ -566,13 +566,13 @@ async def test_set_pin_v3(v3_server, v3_settings_json, v3_settings_new_pin_json)
     async with v3_server:
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(text=json.dumps(v3_settings_json), status=200),
         )
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(text=json.dumps(v3_settings_json), status=200),
         )
@@ -584,7 +584,7 @@ async def test_set_pin_v3(v3_server, v3_settings_json, v3_settings_new_pin_json)
         )
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(text=json.dumps(v3_settings_new_pin_json), status=200),
         )
@@ -818,7 +818,7 @@ async def test_update_system_data_v3(
         )
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(text=json.dumps(v3_settings_json), status=200),
         )
@@ -858,7 +858,7 @@ async def test_update_error_v3(  # pylint: disable=too-many-arguments
         )
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(text=json.dumps(v3_settings_json), status=500),
         )
