@@ -154,8 +154,8 @@ class SystemV3(System):
 
         return sensor_resp["sensors"]
 
-    async def _get_pins(self, cached: bool = True) -> None:
-        """Get existing PINs."""
+    async def _get_settings(self, cached: bool = True) -> None:
+        """Get all system settings."""
         settings_resp: dict = await self._request(
             "get",
             f"ss3/subscriptions/{self.system_id}/settings/pins",
@@ -196,7 +196,7 @@ class SystemV3(System):
         :type cached: ``bool``
         :rtype: ``Dict[str, str]``
         """
-        await self._get_pins(cached)
+        await self._get_settings(cached)
 
         pins: Dict[str, str] = {
             CONF_MASTER_PIN: self._settings_info["settings"]["pins"]["master"]["pin"],
