@@ -262,7 +262,7 @@ class System:
             location_info["system"]["alarmState"]
         )
 
-    async def _send_updated_pins(self, pins: dict) -> None:
+    async def _set_updated_pins(self, pins: dict) -> None:
         """Post new PINs."""
         raise NotImplementedError()
 
@@ -340,7 +340,7 @@ class System:
 
         del latest_pins[label]
 
-        await self._send_updated_pins(latest_pins)
+        await self._set_updated_pins(latest_pins)
 
     async def set_away(self) -> None:
         """Set the system in "Away" mode."""
@@ -384,7 +384,7 @@ class System:
 
         latest_pins[label] = pin
 
-        await self._send_updated_pins(latest_pins)
+        await self._set_updated_pins(latest_pins)
 
     async def update(
         self,

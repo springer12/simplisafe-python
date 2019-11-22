@@ -27,7 +27,7 @@ class SystemV2(System):
 
         return sensor_resp["settings"]["sensors"]
 
-    async def _send_updated_pins(self, pins: dict) -> None:
+    async def _set_updated_pins(self, pins: dict) -> None:
         """Post new PINs."""
         await self._request(
             "post",

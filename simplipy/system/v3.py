@@ -165,7 +165,7 @@ class SystemV3(System):
         if settings_resp:
             self._settings_info = settings_resp
 
-    async def _send_updated_pins(self, pins: dict) -> None:
+    async def _set_updated_pins(self, pins: dict) -> None:
         """Post new PINs."""
         self._settings_info = await self._request(
             "post",
