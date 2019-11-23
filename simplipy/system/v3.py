@@ -202,7 +202,6 @@ class SystemV3(System):  # pylint: disable=too-many-public-methods
         else:
             payload = {"normal": {property_name: value}}
 
-        print(payload)
         settings_resp = await self._request(
             "post", f"ss3/subscriptions/{self.system_id}/settings/normal", json=payload
         )
