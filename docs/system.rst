@@ -163,6 +163,20 @@ additional properties:
     system.wifi_strength
     # >>> -43
 
+V3 systems also come with several methods to set several of these properties:
+
+.. code:: python
+
+    await system.set_alarm_duration(120)
+    await system.set_alarm_volume(simplipy.system.v3.LevelMap.medium)
+    await system.set_chime_volume(simplipy.system.v3.LevelMap.low)
+    await system.set_entry_delay_away(20)
+    await system.set_entry_delay_home(10)
+    await system.set_exit_delay_away(35)
+    await system.set_exit_delay_home(40)
+    await system.set_light(True)
+    await system.set_voice_prompt_volume(simplipy.system.v3.LevelMap.off)
+
 Getting the Latest System Info
 ------------------------------
 
