@@ -197,12 +197,12 @@ class SystemV3(System):  # pylint: disable=too-many-public-methods
 
     async def _set_system_property(self, property_name: str, value: Any) -> None:
         """Set a system property (by SimpliSafe name) in the remote API."""
-        payload = {}
         if isinstance(value, LevelMap):
-            payload[property_name] = value.value
+            payload = {"normal": {property_name: value.value}}
         else:
-            payload[property_name] = value
+            payload = {"normal": {property_name: value}}
 
+        print(payload)
         settings_resp = await self._request(
             "post", f"ss3/subscriptions/{self.system_id}/settings/normal", json=payload
         )
