@@ -256,7 +256,7 @@ class SystemV3(System):  # pylint: disable=too-many-public-methods
         :param level: The volume level to set.
         :type level: :meth:`simplipy.system.v3.LevelMap`
         """
-        await self._set_system_property("alarmDuration", level)
+        await self._set_system_property("alarmVolume", level)
 
     async def set_chime_volume(self, level: LevelMap) -> None:
         """Set the volume level of the chime.
