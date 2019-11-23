@@ -53,7 +53,7 @@ def v3_server(
     )
     server.add(
         "api.simplisafe.com",
-        f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+        f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
         "get",
         aresponses.Response(text=json.dumps(v3_settings_json), status=200),
     )
@@ -673,7 +673,7 @@ def v3_settings_deleted_pin_json():
 
 @pytest.fixture()
 def v3_settings_json():
-    """Return a /v1/ss3/subscriptions/<SUBSCRIPTION_ID>/settings/pins."""
+    """Return a /v1/ss3/subscriptions/<SUBSCRIPTION_ID>/settings/normal."""
     return {
         "account": "12345012",
         "settings": {

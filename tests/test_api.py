@@ -335,7 +335,7 @@ async def test_unavailable_feature_v3(  # pylint: disable=too-many-arguments
         )
         v3_server.add(
             "api.simplisafe.com",
-            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/pins",
+            f"/v1/ss3/subscriptions/{TEST_SUBSCRIPTION_ID}/settings/normal",
             "get",
             aresponses.Response(text=json.dumps(v3_settings_json), status=200),
         )
