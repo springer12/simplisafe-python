@@ -38,7 +38,7 @@ when it comes time to re-authenticate, simply:
 
 .. code:: python
 
-    simplisafe = await API.login_via_token(
+    simplisafe = await simplipy.API.login_via_token(
         "<REFRESH TOKEN>", websession
     )
 
@@ -47,7 +47,7 @@ At any point, the "dirtiness" of the token can be checked:
 
 .. code:: python
 
-    simplisafe = await API.login_via_token(
+    simplisafe = await simplipy.API.login_via_token(
         "<REFRESH TOKEN>", websession
     )
 

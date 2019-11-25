@@ -49,7 +49,7 @@ the entire library. All interactions with ``simplipy`` start within an
     import asyncio
 
     from aiohttp import ClientSession
-    from simplipy import API
+    import simplipy
 
 
     async def main() -> None:

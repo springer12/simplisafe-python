@@ -18,13 +18,13 @@ To get all SimpliSafe™ systems associated with an account:
     import asyncio
 
     from aiohttp import ClientSession
-    from simplipy import API
+    import simplipy
 
 
     async def main() -> None:
         """Create the aiohttp session and run."""
         async with ClientSession() as websession:
-            simplisafe = await API.login_via_credentials(
+            simplisafe = await simplipy.API.login_via_credentials(
                 "<EMAIL>", "<PASSWORD>", websession
             )
 
