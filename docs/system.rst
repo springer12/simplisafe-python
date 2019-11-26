@@ -187,7 +187,7 @@ have limits imposed:
 * ``system.set_exit_delay_home()``: 0–255 seconds
 
 Attempting to call these coroutines with a value beyond these limits will raise a
-``ValueError``.
+``SimplipyError``.
 
 Getting the Latest System Info
 ------------------------------
