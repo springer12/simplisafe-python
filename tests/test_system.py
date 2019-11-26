@@ -7,7 +7,7 @@ import aresponses
 import pytest
 
 from simplipy import API
-from simplipy.errors import InvalidCredentialsError, PinError
+from simplipy.errors import InvalidCredentialsError, PinError, SimplipyError
 from simplipy.system import System, SystemStates
 from simplipy.system.v3 import LevelMap as V3LevelMap
 
@@ -576,6 +576,21 @@ async def test_properties_v3(v3_server, v3_settings_json):
             system._settings_info["settings"]["normal"]["voicePrompts"] = 0
             await system.set_voice_prompt_volume(V3LevelMap.medium)
             assert system.voice_prompt_volume == V3LevelMap.medium
+
+
+@pytest.mark.asyncio
+async def test_delay_property_outside_limits(v3_server):
+    """Test that an error is raised when a delay param is given a value outside limit."""
+    async with v3_server:
+        async with aiohttp.ClientSession() as websession:
+            simplisafe = await API.login_via_credentials(
+                TEST_EMAIL, TEST_PASSWORD, websession
+            )
+            systems = await simplisafe.get_systems()
+            system = systems[TEST_SYSTEM_ID]
+
+            with pytest.raises(SimplipyError):
+                await system.set_exit_delay_home(1000)
 
 
 @pytest.mark.asyncio
