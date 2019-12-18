@@ -3,14 +3,13 @@ import asyncio
 import logging
 
 from aiohttp import ClientSession
-
 from simplipy import API
 from simplipy.errors import SimplipyError
 
 _LOGGER = logging.getLogger()
 
-SIMPLISAFE_EMAIL = "bachya1208@gmail.com"
-SIMPLISAFE_PASSWORD = "rkzmPyb*2*o6vT4ENJNCpAq3k"
+SIMPLISAFE_EMAIL = "<EMAIL>"  # nosec
+SIMPLISAFE_PASSWORD = "<PASSWORD>"  # nosec
 
 
 async def main() -> None:
