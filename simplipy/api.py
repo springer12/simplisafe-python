@@ -6,7 +6,6 @@ from uuid import UUID, uuid4
 
 from aiohttp import BasicAuth, ClientSession
 from aiohttp.client_exceptions import ClientError
-
 from simplipy.errors import InvalidCredentialsError, RequestError
 from simplipy.system import System
 from simplipy.system.v2 import SystemV2
@@ -119,7 +118,7 @@ class API:  # pylint: disable=too-many-instance-attributes
             "post",
             "api/token",
             data=payload_data,
-            auth=BasicAuth(
+            auth=BasicAuth(  # nosec
                 login=DEFAULT_AUTH_USERNAME.format(self._uuid),
                 password="",
                 encoding="latin1",
