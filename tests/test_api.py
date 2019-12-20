@@ -1,8 +1,8 @@
 """Define tests for the System object."""
 # pylint: disable=protected-access,redefined-outer-name,unused-import
+from datetime import datetime, timedelta
 import json
 import logging
-from datetime import datetime, timedelta
 
 import aiohttp
 import aresponses
@@ -19,16 +19,16 @@ from .const import (
     TEST_SYSTEM_ID,
     TEST_USER_ID,
 )
-from .fixtures import (  # noqa
+from .fixtures import (
     api_token_json,
     auth_check_json,
     invalid_credentials_json,
     unavailable_feature_json,
 )
-from .fixtures.v2 import v2_server, v2_settings_json, v2_subscriptions_json  # noqa
-from .fixtures.v3 import (  # noqa
-    v3_server,
+from .fixtures.v2 import v2_server, v2_settings_json, v2_subscriptions_json
+from .fixtures.v3 import (
     v3_sensors_json,
+    v3_server,
     v3_settings_json,
     v3_subscriptions_json,
 )

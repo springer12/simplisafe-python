@@ -1,8 +1,8 @@
 """Define V2 and V3 SimpliSafe systems."""
 import asyncio
-import logging
 from enum import Enum
-from typing import Any, Callable, Coroutine, Dict, List, Type, Set, Union
+import logging
+from typing import Any, Callable, Coroutine, Dict, List, Set, Type, Union
 
 from simplipy.entity import Entity, EntityTypes
 from simplipy.errors import PinError, SimplipyError

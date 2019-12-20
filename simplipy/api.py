@@ -1,11 +1,12 @@
 """Define a SimpliSafe account."""
-import logging
 from datetime import datetime, timedelta
+import logging
 from typing import Dict, Optional, Type, TypeVar
 from uuid import UUID, uuid4
 
 from aiohttp import BasicAuth, ClientSession
 from aiohttp.client_exceptions import ClientError
+
 from simplipy.errors import InvalidCredentialsError, RequestError
 from simplipy.system import System
 from simplipy.system.v2 import SystemV2
@@ -47,7 +48,7 @@ class API:  # pylint: disable=too-many-instance-attributes
         self.email: Optional[str] = None
         self.refresh_token_dirty: bool = False
         self.user_id: Optional[int] = None
-        self.websocket: Optional[Websocket] = None
+        self.websocket: Websocket = None  # type: ignore
 
     @property
     def refresh_token(self) -> str:
