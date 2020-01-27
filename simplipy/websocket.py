@@ -52,6 +52,10 @@ def get_event_type_from_payload(payload: dict) -> Optional[str]:
         * ``entry_detected``
         * ``sensor_error``
         * ``sensor_restored``
+
+    :param payload: A event payload
+    :type payload: ``dict``
+    :rtype: ``str``
     """
     event_cid = payload["eventCid"]
 
@@ -144,6 +148,9 @@ class Websocket:
     def async_on_event(self, target: Callable[..., Awaitable]) -> None:
         """Define a coroutine to be called an event is received.
 
+        The couroutine will have a ``data`` parameter that contains the raw data from
+        the event.
+
         :param target: A coroutine
         :type target: ``Callable[..., Awaitable]``
         """
@@ -151,6 +158,9 @@ class Websocket:
 
     def on_event(self, target: Callable) -> None:
         """Define a synchronous method to be called when an event is received.
+
+        The method will have a ``data`` parameter that contains the raw data from the
+        event.
 
         :param target: A synchronous function
         :type target: ``Callable``
