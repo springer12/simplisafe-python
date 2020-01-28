@@ -25,7 +25,7 @@ You can find complete documentation here: https://simplisafe-python.readthedocs.
 3. Install the dev environment: `make init`.
 4. Enter the virtual environment: `source ./venv/bin/activate`
 5. Code your new feature or bug fix.
-6. Write a test that covers your new functionality.
+6. Write tests that cover your new functionality.
 7. Run tests and ensure 100% code coverage: `make coverage`
 8. Update `README.md` with any new documentation.
 9. Add yourself to `AUTHORS.md`.
