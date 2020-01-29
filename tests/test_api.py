@@ -1,10 +1,10 @@
 """Define tests for the System object."""
-# pylint: disable=protected-access,redefined-outer-name
+# pylint: disable=protected-access
 from datetime import datetime, timedelta
 import logging
 
 import aiohttp
-import aresponses
+from aresponses import ResponsesMockServer
 import pytest
 
 from simplipy import API
@@ -73,7 +73,7 @@ async def test_401_refresh_token_failure(aresponses, v2_server):
 
 
 @pytest.mark.asyncio
-async def test_401_refresh_token_success(v2_server):
+async def test_401_refresh_token_success(aresponses, v2_server):
     """Test that a generic error is thrown when a request fails."""
     async with v2_server:
         v2_server.add(
@@ -129,7 +129,7 @@ async def test_401_refresh_token_success(v2_server):
 
 
 @pytest.mark.asyncio
-async def test_bad_request(v2_server):
+async def test_bad_request(aresponses, v2_server):
     """Test that a generic error is thrown when a request fails."""
     async with v2_server:
         v2_server.add(
@@ -148,7 +148,7 @@ async def test_bad_request(v2_server):
 
 
 @pytest.mark.asyncio
-async def test_expired_token_refresh(v2_server):
+async def test_expired_token_refresh(aresponses, v2_server):
     """Test that a refresh token is used correctly."""
     async with v2_server:
         v2_server.add(
@@ -185,9 +185,9 @@ async def test_expired_token_refresh(v2_server):
 
 
 @pytest.mark.asyncio
-async def test_invalid_credentials(v2_server):
+async def test_invalid_credentials(aresponses, v2_server):
     """Test that invalid credentials throw the correct exception."""
-    async with aresponses.ResponsesMockServer() as v2_server:
+    async with ResponsesMockServer() as v2_server:
         v2_server.add(
             "api.simplisafe.com",
             "/v1/api/token",
@@ -203,7 +203,7 @@ async def test_invalid_credentials(v2_server):
 
 
 @pytest.mark.asyncio
-async def test_refresh_token_dirtiness(v2_server):
+async def test_refresh_token_dirtiness(aresponses, v2_server):
     """Test that the refresh token's dirtiness can be checked."""
     async with v2_server:
         v2_server.add(
@@ -244,7 +244,7 @@ async def test_refresh_token_dirtiness(v2_server):
 
 
 @pytest.mark.asyncio
-async def test_unavailable_feature_v2(caplog, v2_server):
+async def test_unavailable_feature_v2(aresponses, caplog, v2_server):
     """Test that a message is logged with an unavailable feature."""
     caplog.set_level(logging.INFO)
 
@@ -308,7 +308,7 @@ async def test_unavailable_feature_v2(caplog, v2_server):
 
 
 @pytest.mark.asyncio
-async def test_unavailable_feature_v3(caplog, v3_server):
+async def test_unavailable_feature_v3(aresponses, caplog, v3_server):
     """Test that a message is logged with an unavailable feature."""
     caplog.set_level(logging.INFO)
 

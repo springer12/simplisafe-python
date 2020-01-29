@@ -1,9 +1,8 @@
 """Define tests for the System object."""
-# pylint: disable=protected-access,redefined-outer-name
+# pylint: disable=protected-access
 from datetime import datetime
 
 import aiohttp
-import aresponses
 import pytest
 
 from simplipy import API
@@ -27,7 +26,7 @@ from .common import (
 
 
 @pytest.mark.asyncio
-async def test_get_events(v2_server):
+async def test_get_events(aresponses, v2_server):
     """Test getting events from a system."""
     async with v2_server:
         v2_server.add(
@@ -50,7 +49,7 @@ async def test_get_events(v2_server):
 
 
 @pytest.mark.asyncio
-async def test_get_last_event(v3_server):
+async def test_get_last_event(aresponses, v3_server):
     """Test getting the latest event."""
     async with v3_server:
         v3_server.add(
@@ -74,7 +73,7 @@ async def test_get_last_event(v3_server):
 
 
 @pytest.mark.asyncio
-async def test_get_pins_v2(v2_server):
+async def test_get_pins_v2(aresponses, v2_server):
     """Test getting PINs associated with a V3 system."""
     async with v2_server:
         v2_server.add(
@@ -100,7 +99,7 @@ async def test_get_pins_v2(v2_server):
 
 
 @pytest.mark.asyncio
-async def test_get_pins_v3(v3_server):
+async def test_get_pins_v3(aresponses, v3_server):
     """Test getting PINs associated with a V3 system."""
     async with v3_server:
         v3_server.add(
@@ -128,7 +127,7 @@ async def test_get_pins_v3(v3_server):
 
 
 @pytest.mark.asyncio
-async def test_get_systems_v2(v2_server):
+async def test_get_systems_v2(aresponses, v2_server):
     """Test the ability to get systems attached to a v2 account."""
     async with v2_server:
         # Since this flow will call both three routes once more each (on top of
@@ -192,7 +191,7 @@ async def test_get_systems_v2(v2_server):
 
 
 @pytest.mark.asyncio
-async def test_get_systems_v3(v3_server):
+async def test_get_systems_v3(aresponses, v3_server):
     """Test the ability to get systems attached to a v3 account."""
     async with v3_server:
         # Since this flow will call both three routes once more each (on top of
@@ -297,7 +296,7 @@ async def test_no_state_change_on_failure(aresponses, v3_server):
 
 
 @pytest.mark.asyncio
-async def test_remove_nonexistent_pin_v3(v3_server):
+async def test_remove_nonexistent_pin_v3(aresponses, v3_server):
     """Test throwing an error when removing a nonexistent PIN."""
     async with v3_server:
         v3_server.add(
@@ -322,7 +321,7 @@ async def test_remove_nonexistent_pin_v3(v3_server):
 
 
 @pytest.mark.asyncio
-async def test_remove_pin_v3(v3_server):
+async def test_remove_pin_v3(aresponses, v3_server):
     """Test removing a PIN in a V3 system."""
     async with v3_server:
         v3_server.add(
@@ -374,7 +373,7 @@ async def test_remove_pin_v3(v3_server):
 
 
 @pytest.mark.asyncio
-async def test_remove_reserved_pin_v3(v3_server):
+async def test_remove_reserved_pin_v3(aresponses, v3_server):
     """Test throwing an error when removing a reserved PIN."""
     async with v3_server:
         v3_server.add(
@@ -399,7 +398,7 @@ async def test_remove_reserved_pin_v3(v3_server):
 
 
 @pytest.mark.asyncio
-async def test_set_duplicate_pin(v3_server):
+async def test_set_duplicate_pin(aresponses, v3_server):
     """Test throwing an error when setting a duplicate PIN."""
     async with v3_server:
         v3_server.add(
@@ -453,7 +452,7 @@ async def test_properties(v2_server):
 
 
 @pytest.mark.asyncio
-async def test_properties_v3(v3_server):
+async def test_properties_v3(aresponses, v3_server):
     """Test that v3 system properties are available."""
     async with v3_server:
         v3_server.add(
@@ -528,7 +527,7 @@ async def test_properties_v3(v3_server):
 
 
 @pytest.mark.asyncio
-async def test_setting_invalid_property(v3_server):
+async def test_setting_invalid_property(aresponses, v3_server):
     """Test that setting an invalid property raises a ValueError."""
     async with v3_server:
         v3_server.add(
@@ -552,7 +551,7 @@ async def test_setting_invalid_property(v3_server):
 
 
 @pytest.mark.asyncio
-async def test_set_max_user_pins(v3_server):
+async def test_set_max_user_pins(aresponses, v3_server):
     """Test throwing an error when setting too many user PINs."""
     async with v3_server:
         v3_server.add(
@@ -585,7 +584,7 @@ async def test_set_max_user_pins(v3_server):
 
 
 @pytest.mark.asyncio
-async def test_set_pin_v2(v2_server):
+async def test_set_pin_v2(aresponses, v2_server):
     """Test setting a PIN in a V2 system."""
     async with v2_server:
         v2_server.add(
@@ -631,7 +630,7 @@ async def test_set_pin_v2(v2_server):
 
 
 @pytest.mark.asyncio
-async def test_set_pin_v3(v3_server):
+async def test_set_pin_v3(aresponses, v3_server):
     """Test setting a PIN in a V3 system."""
     async with v3_server:
         v3_server.add(
@@ -715,7 +714,7 @@ async def test_set_pin_wrong_length(v3_server):
 
 
 @pytest.mark.asyncio
-async def test_set_states_v2(v2_server):
+async def test_set_states_v2(aresponses, v2_server):
     """Test the ability to set the state of a v2 system."""
     async with v2_server:
         # Since this flow will make the same API call four times and
@@ -775,7 +774,7 @@ async def test_set_states_v2(v2_server):
 
 
 @pytest.mark.asyncio
-async def test_set_states_v3(v3_server):
+async def test_set_states_v3(aresponses, v3_server):
     """Test the ability to set the state of the system."""
     async with v3_server:
         # Since this flow will make the same API call four times and
@@ -855,7 +854,7 @@ async def test_unknown_sensor_type(caplog, v2_server):
 
 
 @pytest.mark.asyncio
-async def test_update_system_data_v2(v2_server):
+async def test_update_system_data_v2(aresponses, v2_server):
     """Test getting updated data for a v2 system."""
     async with v2_server:
         v2_server.add(
@@ -891,7 +890,7 @@ async def test_update_system_data_v2(v2_server):
 
 
 @pytest.mark.asyncio
-async def test_update_system_data_v3(v3_server):
+async def test_update_system_data_v3(aresponses, v3_server):
     """Test getting updated data for a v3 system."""
     async with v3_server:
         v3_server.add(
@@ -935,7 +934,7 @@ async def test_update_system_data_v3(v3_server):
 
 
 @pytest.mark.asyncio
-async def test_update_error_v3(v3_server):
+async def test_update_error_v3(aresponses, v3_server):
     """Test handling a generic error during update."""
     async with v3_server:
         v3_server.add(

@@ -1,5 +1,5 @@
 """Define tests for the Websocket API."""
-# pylint: disable=protected-access,redefined-outer-name
+# pylint: disable=protected-access
 import json
 from unittest.mock import MagicMock
 from urllib.parse import urlencode

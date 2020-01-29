@@ -1,5 +1,4 @@
 """Define tests for the Sensor objects."""
-# pylint: disable=redefined-outer-name
 import aiohttp
 import pytest
 
