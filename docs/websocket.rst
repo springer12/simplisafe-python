@@ -160,15 +160,25 @@ represented by the ``data`` argument:
 
 This helper will currently return one of the following values:
 
+* ``alarm_canceled``
+* ``alarm_triggered``
+* ``armed_away_by_keypad``
+* ``armed_away_by_remote``
 * ``armed_away``
 * ``armed_home``
-* ``arming``
 * ``automatic_test``
-* ``disarmed``
+* ``away_exit_delay_by_keypad``
+* ``away_exit_delay_by_remote``
+* ``camera_motion_detected``
+* ``disarmed_by_master_pin``
+* ``disarmed_by_remote``
+* ``doorbell_detected``
 * ``entry_detected``
-* ``sensor_error``
-* ``sensor_restored``
-* ``triggered``
+* ``home_exit_delay``
+* ``lock_error``
+* ``lock_locked``
+* ``lock_unlocked``
+* ``motion_detected``
 
 If you should come across an event type that the helper does not know about (and see
 a logger warning about it), please open an issue at
