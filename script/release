@@ -43,4 +43,4 @@ git push && git push --tags
 git checkout master
 git merge dev
 git push
-g checkout dev
+git checkout dev
