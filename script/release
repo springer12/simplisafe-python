@@ -6,6 +6,11 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+if [ "$(git rev-parse --abbrev-ref HEAD)" != "dev" ]; then
+    echo "Refusing to publish a release from a branch other than dev"
+    exit 1
+fi
+
 if [ -z "$(command -v poetry)" ]; then
     echo "Poetry needs to be installed to run this script: pip3 install poetry"
     exit 1
