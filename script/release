@@ -18,6 +18,9 @@ if [ -z "$(command -v poetry)" ]; then
     exit 1
 fi
 
+# Temporarily uninstall pre-commit hooks so that we can push to dev and master:
+pre-commit uninstall
+
 old_version="$(poetry version | awk -F' ' '{ print $2 }')"
 
 case "$1" in
@@ -55,3 +58,6 @@ git checkout master
 git merge dev
 git push
 git checkout dev
+
+# Re-initialize pre-commit:
+pre-commit install
