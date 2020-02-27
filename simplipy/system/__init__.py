@@ -238,6 +238,10 @@ class System:
 
     def _generate_system_notification_objects(self) -> List[SystemNotification]:
         """Generate message objects from the message data stored in location_info."""
+        if self._location_info["system"].get("messages") is None:
+            _LOGGER.info("Notifications unavailable in plan")
+            return []
+
         return [
             SystemNotification(
                 raw_message["id"],
