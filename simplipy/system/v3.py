@@ -64,7 +64,7 @@ SYSTEM_PROPERTIES_PAYLOAD_SCHEMA = vol.Schema(
 )
 
 
-def guard_missing_base_station_status(prop) -> Callable:
+def guard_missing_base_station_status(prop: Callable) -> Callable:
     """Define a guard against missing base station status."""
 
     def decorator(system: "SystemV3") -> None:
