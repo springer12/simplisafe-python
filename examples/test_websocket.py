@@ -49,6 +49,10 @@ async def main() -> None:
                 await simplisafe.websocket.async_disconnect()
                 return
 
+            while True:
+                _LOGGER.info("Simulating some other task...")
+                await asyncio.sleep(5)
+
         except SimplipyError as err:
             _LOGGER.error(err)
 
