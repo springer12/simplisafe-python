@@ -19,7 +19,7 @@ use_parentheses = true
 
 [tool.poetry]
 name = "simplisafe-python"
-version = "9.0.7"
+version = "9.1.0"
 description = "A Python3, async interface to the SimpliSafe API"
 readme = "README.md"
 authors = ["Aaron Bach <bachya1208@gmail.com>"]
